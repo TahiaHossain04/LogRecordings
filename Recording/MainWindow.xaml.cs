@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.IO;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -16,9 +17,28 @@ namespace Recording
     /// </summary>
     public partial class MainWindow : Window
     {
+        bool isRecording = false;
+        FileInfo recordingFile;
+
         public MainWindow()
         {
             InitializeComponent();
+        }
+
+        private void buttonRecord_Click(object sender, RoutedEventArgs e)
+        {
+            if (!isRecording)
+            {
+                labelRecordText.Content = "Stop";
+                isRecording = true;
+                RecordWav.StartRecording();
+            }
+            else
+            {
+                labelRecordText.Content = "_Record";
+                isRecording = false;
+                recordingFile = RecordWav.EndRecording();
+            }
         }
     }
 }
