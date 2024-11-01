@@ -25,6 +25,7 @@ namespace Recording
             InitializeComponent();
         }
 
+        // Adding functionality to the Record button
         private void buttonRecord_Click(object sender, RoutedEventArgs e)
         {
             if (!isRecording)
