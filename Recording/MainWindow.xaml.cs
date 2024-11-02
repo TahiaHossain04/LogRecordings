@@ -20,6 +20,9 @@ namespace Recording
     {
         bool isRecording = false;
         FileInfo recordingFile;
+        int wellnessRating;
+        int qualityRating;
+
 
         public MainWindow()
         {
@@ -52,7 +55,7 @@ namespace Recording
 
         private void buttonSave_Click(object sender, RoutedEventArgs e)
         {
-            LogEntry newEntry = new LogEntry(0,0,textNotes.Text,recordingFile);
+            LogEntry newEntry = new LogEntry(wellnessRating,qualityRating,textNotes.Text,recordingFile);
             UpdateStatus(newEntry.ToString());
             buttonRecord.IsEnabled = true;
             buttonPlay.IsEnabled = true;
@@ -103,5 +106,22 @@ namespace Recording
             }
         }
 
+        private void comboWellness_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (comboWellness.SelectedItem is ComboBoxItem selectedItem)
+            {
+                wellnessRating = int.Parse(selectedItem.Content.ToString());
+                UpdateStatus($"Wellness/Mood rating set to {wellnessRating}.");
+            }
+        }
+
+        private void comboQuality_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (comboQuality.SelectedItem is ComboBoxItem selectedItem)
+            {
+                qualityRating = int.Parse(selectedItem.Content.ToString());
+                UpdateStatus($"Quality rating set to {qualityRating}.");
+            }
+        }
     }
 }
