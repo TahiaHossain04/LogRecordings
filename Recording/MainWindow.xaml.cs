@@ -20,9 +20,11 @@ namespace Recording
     {
         bool isRecording = false;
         FileInfo recordingFile;
+        // Variables to store the combo box value selected by user
         int wellnessRating;
         int qualityRating;
-
+        // Track whether an entry has been saved
+        private bool entrySaved = false;
 
         public MainWindow()
         {
@@ -37,8 +39,10 @@ namespace Recording
                 labelRecordText.Content = "Stop";
                 isRecording = true;
                 RecordWav.StartRecording();
-                buttonSave.IsEnabled = false;
+                buttonSave.IsEnabled = false; // Disable save button while recording
                 buttonPlay.IsEnabled = false;
+                comboWellness.SelectedIndex = 0;
+                comboQuality.SelectedIndex = 0;
                 UpdateStatus("Recording started at " + DateTime.Now.ToString("yyyy-MM-dd") + ".");
             }
             else
@@ -46,10 +50,11 @@ namespace Recording
                 labelRecordText.Content = "_Record";
                 isRecording = false;
                 recordingFile = RecordWav.EndRecording();
-                buttonSave.IsEnabled = true;
+                buttonSave.IsEnabled = true; // Enable save button after recording
                 buttonPlay.IsEnabled = true;
                 buttonDelete.IsEnabled = true;
                 UpdateStatus("Recording completed and saved to " + recordingFile.FullName);
+                entrySaved = false; // Reset the entry saved state when recording a new entry
             }
         }
 
@@ -58,7 +63,15 @@ namespace Recording
             LogEntry newEntry = new LogEntry(wellnessRating,qualityRating,textNotes.Text,recordingFile);
             UpdateStatus(newEntry.ToString());
             buttonRecord.IsEnabled = true;
-            buttonPlay.IsEnabled = true;
+            buttonPlay.IsEnabled = false;
+            buttonDelete.IsEnabled = false;
+            buttonRecord.IsEnabled = true;
+            // https://stackoverflow.com/questions/47222611/c-sharp-combobox-selected-index-1-not-working
+            comboWellness.SelectedIndex = -1;
+            comboQuality.SelectedIndex = -1;
+            // Mark the entry as saved
+            entrySaved = true;
+            buttonSave.IsEnabled = false; // Disable the save button after saving
         }
 
         private void UpdateStatus(string status)
@@ -84,26 +97,15 @@ namespace Recording
 
         private void buttonDelete_Click(object sender, RoutedEventArgs e)
         {
-            if (recordingFile != null && recordingFile.Exists)
-                {
+            // Delete the recording file
+            recordingFile.Delete();
+            UpdateStatus("Recording deleted from " + recordingFile.FullName);
 
-                    // Delete the recording file
-                    recordingFile.Delete();
-                    UpdateStatus("Recording deleted from " + recordingFile.FullName);
-
-                    // Reset buttons
-                    buttonRecord.IsEnabled = true;
-                    buttonPlay.IsEnabled = false;
-                    buttonDelete.IsEnabled = false;
-                    buttonSave.IsEnabled = false;
-
-                    // Clear the recording file reference
-                    recordingFile = null;
-            }
-            else
-            {
-                MessageBox.Show("No recording to delete.", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
-            }
+            // Reset buttons
+            buttonRecord.IsEnabled = false;
+            buttonPlay.IsEnabled = false;
+            buttonDelete.IsEnabled = false;
+            buttonSave.IsEnabled = false;
         }
 
         private void comboWellness_SelectionChanged(object sender, SelectionChangedEventArgs e)

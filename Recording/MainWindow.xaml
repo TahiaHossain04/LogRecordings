@@ -99,8 +99,8 @@
                         <ComboBoxItem Content="4"/>
                         <ComboBoxItem Content="5"/>
                     </ComboBox>
-                    <Label x:Name="wellnessLabel" Content="_Wellness/Mood:" FontFamily="Segoe UI Symbol" FontSize="12" Margin="118,22,28,0" Grid.Row="1" VerticalAlignment="Top" Height="28" RenderTransformOrigin="0.611,0.57"/>
-                    <Label x:Name="qualityLabel" Content="Today's _Quality:" FontFamily="Segoe UI Symbol" FontSize="12" HorizontalAlignment="Left" Margin="111,19,0,0" Grid.Row="1" VerticalAlignment="Top" Width="120" Height="30" Grid.Column="1" RenderTransformOrigin="0.682,0.517"/>
+                    <Label x:Name="wellnessLabel" Content="Wellness/Mood:" FontFamily="Segoe UI Symbol" FontSize="12" Margin="118,22,28,0" Grid.Row="1" VerticalAlignment="Top" Height="28" RenderTransformOrigin="0.611,0.57"/>
+                    <Label x:Name="qualityLabel" Content="Today's Quality:" FontFamily="Segoe UI Symbol" FontSize="12" HorizontalAlignment="Left" Margin="111,19,0,0" Grid.Row="1" VerticalAlignment="Top" Width="120" Height="30" Grid.Column="1" RenderTransformOrigin="0.682,0.517"/>
                     <ComboBox x:Name="comboQuality" HorizontalAlignment="Left" Grid.Row="1" VerticalAlignment="Top" Width="90" Height="36" Grid.ColumnSpan="2" Margin="212,14,0,0" Grid.Column="1" IsReadOnly="True" SelectionChanged="comboQuality_SelectionChanged">
                         <ComboBoxItem Content="1"/>
                         <ComboBoxItem Content="2"/>
