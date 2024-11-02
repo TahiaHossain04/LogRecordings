@@ -93,6 +93,11 @@ namespace Recording
                 // Update the summary tab fields/
                 UpdateStatus("Viewing Summary");
             }
+            else if (tabController.SelectedItem == tabEntry)
+            {
+                // Update the summary tab fields/
+                UpdateStatus("Enter Records");
+            }
         }
 
         private void buttonDelete_Click(object sender, RoutedEventArgs e)
