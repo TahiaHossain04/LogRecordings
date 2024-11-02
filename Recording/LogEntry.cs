@@ -15,6 +15,7 @@ namespace Recording
 {
     class LogEntry
     {
+
         // Static variables
         private static int count = 0;
         private static DateTime firstEntry;
@@ -26,7 +27,7 @@ namespace Recording
         private int logWellness;
         private int logQuality;
         private string logNotes = String.Empty;
-        private FileInfo logFile = new FileInfo("");
+        private FileInfo logFile;
 
         // Constructors
 
@@ -48,7 +49,7 @@ namespace Recording
         {
             // Update the static variables
             count++;
-            if (count == 0)
+            if (count == 1)
             {
                 firstEntry = DateTime.Now;
             }
@@ -135,7 +136,7 @@ namespace Recording
         // Logs entry as a string
         public override string ToString()
         {
-            return "Entry" + Id + "created at" + EntryDate.ToString();
+            return $"Entry {Id} created at {EntryDate}, Wellness: {Wellness}, Quality: {Quality}, Notes: {Notes}";
         }
     }
 }

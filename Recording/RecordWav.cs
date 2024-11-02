@@ -34,12 +34,12 @@ namespace Recording
         /// <returns>A FileInfo object pointing to the resulting .wav file.</returns>
         internal static FileInfo EndRecording()
         {
-            if (!Directory.Exists(Environment.CurrentDirectory + "Files"))
+            if (!Directory.Exists(Environment.CurrentDirectory + "\\Files"))
             {
-                Directory.CreateDirectory(Environment.CurrentDirectory + "Files");
+                Directory.CreateDirectory(Environment.CurrentDirectory + "\\Files");
             }
 
-            string fileName = Environment.CurrentDirectory + "Files\\Recording" + DateTime.Now.ToString("yyyyMMdd") + ".wav";
+            string fileName = Environment.CurrentDirectory + "\\Files\\Recording" + DateTime.Now.ToString("yyyyMMdd") + ".wav";
             
             mciSendString("save recsound " + fileName, "", 0, 0);
             mciSendString("close recsound ", "", 0, 0);
