@@ -1,4 +1,10 @@
-﻿using System.IO;
+﻿// Author:        Tahia Hossain
+// Date Created:  31st October 2024
+// Date Modified: 2nd November 2024
+// Description:   ?
+
+
+using System.IO;
 using System.Media;
 using System.Text;
 using System.Windows;
@@ -62,6 +68,7 @@ namespace Recording
             }
         }
 
+        // Adding functionality to the Save button
         private void buttonSave_Click(object sender, RoutedEventArgs e)
         {
             // Create a new LogEntry object
@@ -101,11 +108,13 @@ namespace Recording
             buttonSave.IsEnabled = false; // Disable the save button after saving
         }
 
+        // Updating status bar of the program
         private void UpdateStatus(string status)
         {
             statusState.Content = status;
         }
 
+        // Updating summary tab's textboxes
         private void UpdateSummary()
         {
             // Update the summary text boxes directly
@@ -114,7 +123,7 @@ namespace Recording
             entryNumText.Text = entryCount.ToString(); // Show total entries
         }
 
-
+        // Adding functionality to the Play button
         private void buttonPlay_Click(object sender, RoutedEventArgs e)
         {
             var player = new SoundPlayer(recordingFile.FullName);
@@ -122,15 +131,22 @@ namespace Recording
             UpdateStatus("Playing " + recordingFile.FullName + ".");
         }
 
+        // Updating status bar for tab change
         private void TabChanged(object sender,RoutedEventArgs e)
         {
             if (tabController.SelectedItem == tabSummary)
             {
-                // Update the summary tab fields/
+                // Update the summary tab status bar
                 UpdateStatus("Viewing Summary");
             }
+            //else if (tabController.SelectedItem == tabEntry)
+            //{
+            //    // Update the entry tab status bar
+            //    UpdateStatus("Add recording logs");
+            //}
         }
 
+        // Adding functionality to the Delete button
         private void buttonDelete_Click(object sender, RoutedEventArgs e)
         {
             // Delete the recording file
@@ -147,6 +163,8 @@ namespace Recording
             comboQuality.SelectedIndex = -1;
         }
 
+        // Adding functionality to the Wellness Combobox
+        // https://chatgpt.com/
         private void comboWellness_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (comboWellness.SelectedItem is ComboBoxItem selectedItem)
@@ -156,6 +174,7 @@ namespace Recording
             }
         }
 
+        // Adding functionality to the Quality Combobox
         private void comboQuality_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (comboQuality.SelectedItem is ComboBoxItem selectedItem)
