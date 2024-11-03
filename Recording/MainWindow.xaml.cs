@@ -25,6 +25,10 @@ namespace Recording
         int qualityRating;
         // Track whether an entry has been saved
         private bool entrySaved = false;
+        // Variables to track the summary information
+        private int entryCount = 0; // Total number of entries
+        private string firstEntryTime = ""; // Time of the first entry
+        private string latestEntryTime = ""; // Time of the latest entry
 
         public MainWindow()
         {
@@ -43,7 +47,7 @@ namespace Recording
                 buttonPlay.IsEnabled = false;
                 comboWellness.SelectedIndex = 0;
                 comboQuality.SelectedIndex = 0;
-                UpdateStatus("Recording started at " + DateTime.Now.ToString("yyyy-MM-dd") + ".");
+                UpdateStatus("Recording started at " + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + ".");
             }
             else
             {
@@ -60,15 +64,38 @@ namespace Recording
 
         private void buttonSave_Click(object sender, RoutedEventArgs e)
         {
-            LogEntry newEntry = new LogEntry(wellnessRating,qualityRating,textNotes.Text,recordingFile);
+            // Create a new LogEntry object
+            LogEntry newEntry = new LogEntry(wellnessRating, qualityRating, textNotes.Text, recordingFile);
             UpdateStatus(newEntry.ToString());
+
+            // Increment the count of entries
+            entryCount++;
+
+            // Get the current date and time
+            string currentTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+
+            // Check if it's the first entry
+            if (entryCount == 1)
+            {
+                firstEntryTime = currentTime; // Set the first entry time
+            }
+
+            latestEntryTime = currentTime; // Update the latest entry time
+
+            // Update the summary display
+            UpdateSummary();
+
+            // Update buttons
             buttonRecord.IsEnabled = true;
             buttonPlay.IsEnabled = false;
             buttonDelete.IsEnabled = false;
             buttonRecord.IsEnabled = true;
+            textNotes.Text = "";
+
             // https://stackoverflow.com/questions/47222611/c-sharp-combobox-selected-index-1-not-working
             comboWellness.SelectedIndex = -1;
             comboQuality.SelectedIndex = -1;
+
             // Mark the entry as saved
             entrySaved = true;
             buttonSave.IsEnabled = false; // Disable the save button after saving
@@ -78,6 +105,15 @@ namespace Recording
         {
             statusState.Content = status;
         }
+
+        private void UpdateSummary()
+        {
+            // Update the summary text boxes directly
+            firstEntryText.Text = firstEntryTime; // Show first entry time
+            newEntryText.Text = latestEntryTime; // Show latest entry time
+            entryNumText.Text = entryCount.ToString(); // Show total entries
+        }
+
 
         private void buttonPlay_Click(object sender, RoutedEventArgs e)
         {
@@ -93,11 +129,6 @@ namespace Recording
                 // Update the summary tab fields/
                 UpdateStatus("Viewing Summary");
             }
-            else if (tabController.SelectedItem == tabEntry)
-            {
-                // Update the summary tab fields/
-                UpdateStatus("Enter Records");
-            }
         }
 
         private void buttonDelete_Click(object sender, RoutedEventArgs e)
@@ -107,10 +138,13 @@ namespace Recording
             UpdateStatus("Recording deleted from " + recordingFile.FullName);
 
             // Reset buttons
-            buttonRecord.IsEnabled = false;
+            buttonRecord.IsEnabled = true;
             buttonPlay.IsEnabled = false;
             buttonDelete.IsEnabled = false;
             buttonSave.IsEnabled = false;
+            textNotes.Text = "";
+            comboWellness.SelectedIndex = -1;
+            comboQuality.SelectedIndex = -1;
         }
 
         private void comboWellness_SelectionChanged(object sender, SelectionChangedEventArgs e)

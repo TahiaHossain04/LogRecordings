@@ -5,7 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Recording"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="Recording Logs" WindowStartupLocation="CenterScreen" FontSize="13"
+        MinHeight="450" Height="450"
+        MinWidth="800" Width="450">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition />
@@ -94,16 +96,16 @@
 
                         </Grid>
                     </Button>
-                    <ComboBox x:Name="comboWellness" HorizontalAlignment="Left" Grid.Row="1" VerticalAlignment="Top" Width="90" Height="36" Grid.ColumnSpan="2" Margin="143,16,0,0" IsReadOnly="True" SelectionChanged="comboWellness_SelectionChanged" Grid.Column="2">
+                    <ComboBox x:Name="comboWellness" HorizontalAlignment="Left" Grid.Row="1" VerticalAlignment="Top" Width="90" Height="36" Grid.ColumnSpan="2" Margin="143,16,0,0" IsReadOnly="True" SelectionChanged="comboWellness_SelectionChanged" Grid.Column="2" ToolTip="Click to choose your mood level today">
                         <ComboBoxItem Content="1"/>
                         <ComboBoxItem Content="2"/>
                         <ComboBoxItem Content="3"/>
                         <ComboBoxItem Content="4"/>
                         <ComboBoxItem Content="5"/>
                     </ComboBox>
-                    <Label x:Name="wellnessLabel" Content="Wellness/Mood:" FontFamily="Segoe UI Symbol" FontSize="12" Margin="41,22,28,0" Grid.Row="1" VerticalAlignment="Top" Height="28" RenderTransformOrigin="0.611,0.57" Grid.Column="2"/>
-                    <Label x:Name="qualityLabel" Content="Today's Quality:" FontFamily="Segoe UI Symbol" FontSize="12" HorizontalAlignment="Left" Margin="111,19,0,0" Grid.Row="1" VerticalAlignment="Top" Width="120" Height="30" Grid.Column="3" RenderTransformOrigin="0.682,0.517"/>
-                    <ComboBox x:Name="comboQuality" HorizontalAlignment="Left" Grid.Row="1" VerticalAlignment="Top" Width="90" Height="36" Grid.ColumnSpan="2" Margin="212,14,0,0" Grid.Column="3" IsReadOnly="True" SelectionChanged="comboQuality_SelectionChanged">
+                    <Label x:Name="wellnessLabel" Content="Wellness/_Mood:" FontFamily="Segoe UI Symbol" FontSize="12" Margin="41,22,28,0" Grid.Row="1" VerticalAlignment="Top" Height="28" RenderTransformOrigin="0.611,0.57" Grid.Column="2"/>
+                    <Label x:Name="qualityLabel" Content="Today's _Quality:" FontFamily="Segoe UI Symbol" FontSize="12" HorizontalAlignment="Left" Margin="111,19,0,0" Grid.Row="1" VerticalAlignment="Top" Width="120" Height="30" Grid.Column="3" RenderTransformOrigin="0.682,0.517"/>
+                    <ComboBox x:Name="comboQuality" HorizontalAlignment="Left" Grid.Row="1" VerticalAlignment="Top" Width="90" Height="36" Grid.ColumnSpan="2" Margin="212,14,0,0" Grid.Column="3" IsReadOnly="True" SelectionChanged="comboQuality_SelectionChanged" ToolTip="Click to choose today's quality">
                         <ComboBoxItem Content="1"/>
                         <ComboBoxItem Content="2"/>
                         <ComboBoxItem Content="3"/>
@@ -119,7 +121,8 @@
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="5*"/>
-                        <ColumnDefinition Width="789*"/>
+                        <ColumnDefinition Width="11*"/>
+                        <ColumnDefinition Width="778*"/>
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
@@ -128,13 +131,13 @@
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
 
-                    <TextBlock Text="Recording Summary" FontWeight="Bold" FontSize="16" Grid.Row="0" Margin="0,0,0,10" Grid.ColumnSpan="2"/>
-                    <Label Grid.Column="1" Content="Number of Entries:" HorizontalAlignment="Left" Margin="133,69,0,0" Grid.Row="3" Width="182" Height="32" FontSize="18" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalAlignment="Top"/>
-                    <TextBox x:Name="_entryNumText" Grid.Column="1" HorizontalAlignment="Left" Margin="315,69,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="239" Grid.Row="3" Height="32" HorizontalContentAlignment="Center" FontSize="14" IsReadOnly="True" ToolTip="The number of entries created today"/>
-                    <Label Grid.Column="1" Content="First Entry:" HorizontalAlignment="Left" Margin="150,136,0,72" Grid.Row="3" Width="160" FontSize="18" FontWeight="Bold" HorizontalContentAlignment="Center"/>
-                    <Label Grid.Column="1" Content="Newest Entry:" HorizontalAlignment="Left" Margin="150,208,0,0" Grid.Row="3" Width="160" Height="32" FontSize="18" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalAlignment="Top"/>
-                    <TextBox x:Name="_firstEntryText" Grid.Column="1" HorizontalAlignment="Left" Margin="315,136,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="239" Grid.Row="3" Height="32" HorizontalContentAlignment="Center" FontSize="14" IsReadOnly="True" ToolTip="Time of the first entry "/>
-                    <TextBox x:Name="_newEntryText" Grid.Column="1" HorizontalAlignment="Left" Margin="315,208,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="239" Grid.Row="3" Height="32" HorizontalContentAlignment="Center" FontSize="14" IsReadOnly="True" ToolTip="Time of the latest entry"/>
+                    <TextBlock Text="Recording Summary" FontWeight="Bold" FontSize="16" Grid.Row="0" Margin="0,0,0,10" Grid.ColumnSpan="3"/>
+                    <Label Grid.Column="2" Content="Number of _Entries:" HorizontalAlignment="Left" Margin="122,69,0,0" Grid.Row="3" Width="182" Height="32" FontSize="16" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalAlignment="Top"/>
+                    <TextBox x:Name="entryNumText"  Grid.Column="2" HorizontalAlignment="Left" Margin="304,69,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="239" Grid.Row="3" Height="32" HorizontalContentAlignment="Center" FontSize="14" IsReadOnly="True" ToolTip="The number of entries created today"/>
+                    <Label Grid.Column="2" Content="_First Entry:" HorizontalAlignment="Left" Margin="139,136,0,72" Grid.Row="3" Width="160" FontSize="16" FontWeight="Bold" HorizontalContentAlignment="Center"/>
+                    <Label Grid.Column="2" Content="_Newest Entry:" HorizontalAlignment="Left" Margin="139,208,0,0" Grid.Row="3" Width="160" Height="32" FontSize="16" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalAlignment="Top"/>
+                    <TextBox x:Name="firstEntryText" Grid.Column="2" HorizontalAlignment="Left" Margin="304,136,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="239" Grid.Row="3" Height="32" HorizontalContentAlignment="Center" FontSize="14" IsReadOnly="True" ToolTip="Time of the first entry "/>
+                    <TextBox x:Name="newEntryText" Grid.Column="2" HorizontalAlignment="Left" Margin="304,208,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="239" Grid.Row="3" Height="32" HorizontalContentAlignment="Center" FontSize="14" IsReadOnly="True" ToolTip="Time of the latest entry"/>
 
                 </Grid>
 
