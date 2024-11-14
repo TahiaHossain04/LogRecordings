@@ -1,7 +1,8 @@
 ﻿// Author:        Tahia Hossain
 // Date Created:  31st October 2024
 // Date Modified: 2nd November 2024
-// Description:   ?
+// Description:   The main wind of the XAML file to store the event handlers for all the
+//                buttons and fields on the XAML file.
 
 
 using System.IO;
@@ -35,7 +36,8 @@ namespace Recording
         private int entryCount = 0; // Total number of entries
         private string firstEntryTime = ""; // Time of the first entry
         private string latestEntryTime = ""; // Time of the latest entry
-
+        
+        // 
         public MainWindow()
         {
             InitializeComponent();
@@ -44,25 +46,36 @@ namespace Recording
         // Adding functionality to the Record button
         private void buttonRecord_Click(object sender, RoutedEventArgs e)
         {
+            // 
             if (!isRecording)
             {
+                //
                 labelRecordText.Content = "Stop";
+                //
                 isRecording = true;
+                //
                 RecordWav.StartRecording();
                 buttonSave.IsEnabled = false; // Disable save button while recording
                 buttonPlay.IsEnabled = false;
+                //
                 comboWellness.SelectedIndex = 0;
                 comboQuality.SelectedIndex = 0;
+                //
                 UpdateStatus("Recording started at " + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + ".");
             }
+            //
             else
             {
+                //
                 labelRecordText.Content = "_Record";
+                //
                 isRecording = false;
+                //
                 recordingFile = RecordWav.EndRecording();
                 buttonSave.IsEnabled = true; // Enable save button after recording
                 buttonPlay.IsEnabled = true;
                 buttonDelete.IsEnabled = true;
+                //
                 UpdateStatus("Recording completed and saved to " + recordingFile.FullName);
                 entrySaved = false; // Reset the entry saved state when recording a new entry
             }
@@ -99,6 +112,7 @@ namespace Recording
             buttonRecord.IsEnabled = true;
             textNotes.Text = "";
 
+            //
             // https://stackoverflow.com/questions/47222611/c-sharp-combobox-selected-index-1-not-working
             comboWellness.SelectedIndex = -1;
             comboQuality.SelectedIndex = -1;
@@ -126,8 +140,11 @@ namespace Recording
         // Adding functionality to the Play button
         private void buttonPlay_Click(object sender, RoutedEventArgs e)
         {
+            //
             var player = new SoundPlayer(recordingFile.FullName);
+            //
             player.Play();
+            //
             UpdateStatus("Playing " + recordingFile.FullName + ".");
         }
 
@@ -164,9 +181,14 @@ namespace Recording
         }
 
         // Adding functionality to the Wellness Combobox
+        // https://stackoverflow.com/questions/4902039/difference-between-selecteditem-selectedvalue-and-selectedvaluepath
         // https://chatgpt.com/
+        // https://stackoverflow.com/questions/7396549/getting-selected-object-from-comboxs-selecteditem
+
+        //
         private void comboWellness_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            //
             if (comboWellness.SelectedItem is ComboBoxItem selectedItem)
             {
                 wellnessRating = int.Parse(selectedItem.Content.ToString());
@@ -177,6 +199,7 @@ namespace Recording
         // Adding functionality to the Quality Combobox
         private void comboQuality_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            //
             if (comboQuality.SelectedItem is ComboBoxItem selectedItem)
             {
                 qualityRating = int.Parse(selectedItem.Content.ToString());

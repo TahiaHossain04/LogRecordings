@@ -1,7 +1,7 @@
 ﻿// Author:        Tahia Hossain
 // Date Created:  31st October 2024
 // Date Modified: 2nd November 2024
-// Description:   ?
+// Description:   A class created to keep track of the entered logs 
 
 using System;
 using System.Collections.Generic;
@@ -13,6 +13,7 @@ using System.Windows;
 
 namespace Recording
 {
+    // 
     class LogEntry
     {
 
@@ -45,6 +46,7 @@ namespace Recording
         // File path associated
 
 
+        // 
         public LogEntry(int wellnessValue, int qualityValue, string notesValue, FileInfo filevalue)
         {
             // Update the static variables
@@ -56,6 +58,7 @@ namespace Recording
             newestEntry = DateTime.Now;
 
 
+            // 
             logID = count;
             Wellness = wellnessValue;
             Quality = qualityValue;
@@ -65,6 +68,7 @@ namespace Recording
 
         // Properties
 
+        //
         public int Id
         {
             get => logID; private set
@@ -74,6 +78,7 @@ namespace Recording
 
         }
 
+        //
         public DateTime EntryDate
         { get => logDate; set
             {
@@ -81,6 +86,7 @@ namespace Recording
             }
         }
 
+        //
         public int Wellness
         {
             get => logWellness; set
@@ -88,6 +94,8 @@ namespace Recording
                 logWellness = value;
             }
         }
+        
+        //
         public int Quality
         {
             get => logQuality; set
@@ -96,6 +104,7 @@ namespace Recording
             }
         }
 
+        //
         public string Notes
         {
             get => logNotes; set
@@ -112,6 +121,7 @@ namespace Recording
             }
         }
 
+        //
         public FileInfo RecordingFile
         {
             get => logFile; set
@@ -121,15 +131,12 @@ namespace Recording
         }
 
         // Get the total number of log entries
-
         public static int Count => count;
 
         // Get the first log entry's data
-
         public static DateTime FirstEntry => firstEntry;
 
         // Get the most recent log entry's data
-
         public static DateTime NewestEntry => newestEntry;
 
         // Displays a log entry as a string
