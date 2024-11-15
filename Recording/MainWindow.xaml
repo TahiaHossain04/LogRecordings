@@ -199,7 +199,23 @@
             <!-- The list tab. -->
             <TabItem x:Name="tabList" Header="_List" ToolTip="View the list of past entries" TabIndex="9" >
                 <Grid>
-
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="50"/>
+                        <RowDefinition Height="45"/>
+                        <RowDefinition Height="180"/>
+                        <RowDefinition Height="45"/>
+                        <RowDefinition Height="180"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Text="List of Entries" FontWeight="Bold" FontSize="16" Grid.Row="0" Margin="304,5,0,5" Grid.ColumnSpan="3" HorizontalAlignment="Center"/>
+                    <Label x:Name="listAudioLabel" Content="List of Audio Entries:" FontWeight="Bold" FontFamily="Segoe UI Symbol" FontSize="14" HorizontalAlignment="Left" Margin="28,25,0,0" VerticalAlignment="Top" Width="172" Height="47" Grid.ColumnSpan="2" Grid.RowSpan="2"/>
+                    <TextBox Grid.ColumnSpan="3" Margin="28,10,-407,40" Grid.Row="1" Grid.RowSpan="2" Height="160" IsReadOnly="True"/>
+                    <Label x:Name="listEssayLabel" Content="List of Text Entries" FontWeight="Bold" FontFamily="Segoe UI Symbol" FontSize="14" HorizontalAlignment="Left" Margin="28,0,0,0" Grid.Row="2" VerticalAlignment="Bottom" Width="172" Height="35" Grid.ColumnSpan="2"/>
+                    <TextBox Grid.ColumnSpan="3" Margin="28,0,-407,59" Grid.Row="3" Grid.RowSpan="2" Height="160" IsReadOnly="True"/>
                 </Grid>
 
             </TabItem>
