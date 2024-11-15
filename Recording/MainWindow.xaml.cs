@@ -50,7 +50,7 @@ namespace Recording
             if (!isRecording)
             {
                 //
-                labelRecordText.Content = "Stop";
+                labelRecordText.Content = "_Stop";
                 //
                 isRecording = true;
                 //

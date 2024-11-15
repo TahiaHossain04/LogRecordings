@@ -1,8 +1,10 @@
 ﻿// Author:        Tahia Hossain
-// Date Created:  31st October 2024
-// Date Modified: 2nd November 2024
+// File:          Recording (version 2)
+// Date Created:  13th November 2024
+// Date Modified: 16th November 2024
 // Description:   A class created to keep track of the entered logs 
 
+// Imports
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -13,63 +15,34 @@ using System.Windows;
 
 namespace Recording
 {
-    // 
-    class LogEntry
+    // New Class is dclared
+    internal class LogEntry
     {
 
         // Static variables
-        private static int count = 0;
-        private static DateTime firstEntry;
-        private static DateTime newestEntry;
+        // Tracks the number of LogEntry objects created.
+        protected static int count = 0;
+        // Tracks the date and time of the first and last entry
+        protected static DateTime firstEntry;
+        protected static DateTime newestEntry;
 
         // Instance variables
-        private int logID;
-        private DateTime logDate = DateTime.Now;
-        private int logWellness;
-        private int logQuality;
-        private string logNotes = String.Empty;
-        private FileInfo logFile;
+        // Each LogEntry object will have its own copy
+        // Unique ID for every new entry created
+        protected int logID;
+        // Date and Time set to current time for when the entry was created
+        protected DateTime logDate = DateTime.Now;
+        protected int logWellness;
+        protected int logQuality;
+        // An empty string to store notes with the long entry
+        protected string logNotes = String.Empty;
 
         // Constructors
-
-        // Default sets the count and id values
-        public LogEntry()
-        {
-            count++;
-            logID = count;
-        }
-
-        // Parameterized consturctor to create a new log entry object
-        // wellnessValye between 1 and 5
-        // qualityValue between 1 and 5
-        // Notes for this log entry
-        // File path associated
-
-
-        // 
-        public LogEntry(int wellnessValue, int qualityValue, string notesValue, FileInfo filevalue)
-        {
-            // Update the static variables
-            count++;
-            if (count == 1)
-            {
-                firstEntry = DateTime.Now;
-            }
-            newestEntry = DateTime.Now;
-
-
-            // 
-            logID = count;
-            Wellness = wellnessValue;
-            Quality = qualityValue;
-            Notes = notesValue;
-            RecordingFile = filevalue;
-        }
+        // Cant instantiate?
 
         // Properties
-
-        //
-        public int Id
+        // Allows read-only access to logID
+        protected internal int Id
         {
             get => logID; private set
             {
@@ -78,25 +51,25 @@ namespace Recording
 
         }
 
-        //
-        public DateTime EntryDate
-        { get => logDate; set
+        // Provides read and write access to logDate
+        protected internal DateTime EntryDate
+        {
+            get => logDate; set
             {
                 logDate = value;
             }
         }
 
-        //
-        public int Wellness
+        // Read and Write
+        protected internal int Wellness
         {
             get => logWellness; set
             {
                 logWellness = value;
             }
         }
-        
-        //
-        public int Quality
+
+        protected internal int Quality
         {
             get => logQuality; set
             {
@@ -104,8 +77,7 @@ namespace Recording
             }
         }
 
-        //
-        public string Notes
+        protected internal string Notes
         {
             get => logNotes; set
             {
@@ -121,29 +93,26 @@ namespace Recording
             }
         }
 
-        //
-        public FileInfo RecordingFile
-        {
-            get => logFile; set
-            {
-                logFile = value;
-            }
-        }
 
         // Get the total number of log entries
-        public static int Count => count;
+
+        protected internal static int Count => count;
 
         // Get the first log entry's data
-        public static DateTime FirstEntry => firstEntry;
+
+        protected internal static DateTime FirstEntry => firstEntry;
 
         // Get the most recent log entry's data
-        public static DateTime NewestEntry => newestEntry;
+
+        protected internal static DateTime NewestEntry => newestEntry;
 
         // Displays a log entry as a string
         // Logs entry as a string
+        // Has to be public, why?
         public override string ToString()
         {
             return $"Entry {Id} created at {EntryDate}, Wellness: {Wellness}, Quality: {Quality}, Notes: {Notes}";
         }
     }
 }
+
