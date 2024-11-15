@@ -71,7 +71,7 @@ namespace Recording
         // Has to be public, why?
         public override string ToString()
         {
-            return base.ToString() + " -Audio";
+            return "Audio " + base.ToString();
         }
     }
 }
