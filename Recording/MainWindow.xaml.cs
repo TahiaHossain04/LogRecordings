@@ -41,6 +41,7 @@ namespace Recording
         public MainWindow()
         {
             InitializeComponent();
+
         }
 
         // Adding functionality to the Record button
@@ -98,7 +99,6 @@ namespace Recording
             buttonRecord.IsEnabled = true;
             buttonPlay.IsEnabled = false;
             buttonDelete.IsEnabled = false;
-            buttonRecord.IsEnabled = true;
             textNotes.Text = "";
 
             // https://stackoverflow.com/questions/47222611/c-sharp-combobox-selected-index-1-not-working
@@ -108,7 +108,6 @@ namespace Recording
             // Mark the entry as saved
             entrySaved = true;
             buttonSave.IsEnabled = false; // Disable the save button after saving
-            // ResetForm();  --??
         }
 
         // Updating status bar of the program
@@ -134,20 +133,18 @@ namespace Recording
             UpdateStatus("Playing " + recordingFile.FullName + ".");
         }
 
-        // Updating status bar for tab change
         private void TabChanged(object sender, RoutedEventArgs e)
         {
             if (tabController.SelectedItem == tabSummary)
             {
-                // Update the summary tab status bar
                 UpdateStatus("Viewing Summary");
             }
-            //else if (tabController.SelectedItem == tabEntry)
+            //else if (tabController.SelectedItem == tabList)
             //{
-            //    // Update the entry tab status bar
-            //    UpdateStatus("Add recording logs");
+            //    UpdateListDisplay();  // This will update the list of entries on the List tab
             //}
         }
+
 
         // Adding functionality to the Delete button
         private void buttonDelete_Click(object sender, RoutedEventArgs e)
@@ -190,6 +187,83 @@ namespace Recording
         private void comboQuality_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (comboQuality.SelectedItem is ComboBoxItem selectedItem)
+            {
+                qualityRating = int.Parse(selectedItem.Content.ToString());
+                UpdateStatus($"Quality rating set to {qualityRating}.");
+            }
+        }
+
+        private void buttonTextSave_Click(object sender, RoutedEventArgs e)
+        {
+            string notes = textEssay.Text;
+            string essayNotes = textEssayNotes.Text;
+
+            // Validate notes before saving
+            if (string.IsNullOrWhiteSpace(notes))
+            {
+                MessageBox.Show("Cannot save. The text entry field is empty.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                UpdateStatus("Save failed: Text entry is empty.");
+                return; // Exit without saving
+            }
+
+            if (string.IsNullOrWhiteSpace(essayNotes))
+            {
+                MessageBox.Show("The text notes field is empty!", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+
+            // Save as a TextLogEntry
+            TextLogEntry newEntry = new TextLogEntry(wellnessRating, qualityRating, notes);
+            UpdateStatus($"Text Entry Saved: {newEntry}");
+
+            // Increment the count of entries
+            entryCount++;
+
+            // Reset fields and update UI
+            textEssay.Clear();
+            comboWellness.SelectedIndex = -1;
+            comboQuality.SelectedIndex = -1;
+
+            entrySaved = true;
+            MessageBox.Show("Text Entry saved successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+
+        private void buttonTextDelete_Click(object sender, RoutedEventArgs e)
+        {
+            // Validate text field before deleting
+            if (string.IsNullOrWhiteSpace(textNotes.Text))
+            {
+                MessageBox.Show("Cannot delete. The text entry field is empty.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                UpdateStatus("Delete failed: Text entry is empty.");
+                return; // Exit without deleting
+            }
+
+            // Clear the fields and notify the user
+            textEssay.Clear();
+            comboWellness.SelectedIndex = -1;
+            comboQuality.SelectedIndex = -1;
+
+            UpdateStatus("Text entry deleted.");
+            MessageBox.Show("Text entry deleted successfully.", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+
+        private void comboWellness2_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            // comboWellness.SelectedItem --> Accesses the currently selected item in the combo box
+            // ensures the selected item is of type ComboBoxItem.
+            // If it is, it assigns it to the variable selectedItem.
+            if (comboWellness2.SelectedItem is ComboBoxItem selectedItem)
+            {
+                // Gets the content (text) of the selected combo box item
+                // Converts the content to a string, just in case it’s not already a string.
+                // Parses the string content into an integer, which is then assigned to qualityRating
+                wellnessRating = int.Parse(selectedItem.Content.ToString());
+                UpdateStatus($"Wellness/Mood rating set to {wellnessRating}.");
+            }
+        }
+
+        private void comboQuality2_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (comboQuality2.SelectedItem is ComboBoxItem selectedItem)
             {
                 qualityRating = int.Parse(selectedItem.Content.ToString());
                 UpdateStatus($"Quality rating set to {qualityRating}.");
