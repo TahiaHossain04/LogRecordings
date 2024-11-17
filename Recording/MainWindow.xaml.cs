@@ -38,8 +38,6 @@ namespace Recording
         private string firstEntryTime = ""; // Time of the first entry
         private string latestEntryTime = ""; // Time of the latest entry
 
-
-
         public MainWindow()
         {
             InitializeComponent();
@@ -76,6 +74,27 @@ namespace Recording
             }
         }
 
+        // Assigning the selected combo box item to a variable to be called later
+        private void comboWellness_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (comboWellness.SelectedItem is ComboBoxItem selectedItem)
+            {
+                // Gets the content (text) of the selected combo box item
+                // Converts the content to a string, just in case it’s not already a string.
+                // Parses the string content into an integer, which is then assigned to qualityRating
+                wellnessRating = int.Parse(selectedItem.Content.ToString());
+            }
+        }
+
+        // Assigning the selected combo box item to a variable to be called later
+        private void comboQuality_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (comboQuality.SelectedItem is ComboBoxItem selectedItem)
+            {
+                qualityRating = int.Parse(selectedItem.Content.ToString());
+            }
+        }
+
         // For the Audio Log Entry Tab
         // Adding functionality to the Save button
         private void buttonSave_Click(object sender, RoutedEventArgs e)
@@ -90,9 +109,12 @@ namespace Recording
                     throw new ArgumentException("Notes have been left empty or contain only whitespace.");
                 }
 
+
                 // Create a new LogEntry object
                 LogEntry newEntry = new AudioLogEntry(wellnessRating, qualityRating, textNotes.Text, recordingFile);
-                UpdateStatus(newEntry.ToString());
+
+                //// Update status with the full log entry details
+                //UpdateStatus(newEntry.ToString());
 
                 // Add the new entry to the static logEntries list
                 LogEntry.logEntries.Add(newEntry);
@@ -111,6 +133,11 @@ namespace Recording
 
                 latestEntryTime = currentTime; // Update the latest entry time
 
+                MessageBox.Show("Audio Entry saved successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+
+                // Update status to reflect the successful save
+                UpdateStatus($"Text Entry Saved: {newEntry}");
+
                 // Update the summary display
                 UpdateSummary();
 
@@ -126,6 +153,7 @@ namespace Recording
                 // Mark the entry as saved
                 entrySaved = true;
                 buttonSave.IsEnabled = false; // Disable the save button after saving
+            
             }
 
             catch (ArgumentException ex)
@@ -180,6 +208,12 @@ namespace Recording
             comboQuality.SelectedIndex = 0;
         }
 
+        // For the Audio Log Entry Tab
+        // Exit Button
+        private void buttonExit_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
 
         // Changing of tabs
         private void TabChanged(object sender, RoutedEventArgs e)
@@ -203,6 +237,7 @@ namespace Recording
         // Text Log Tab Event Handlers
 
         // Only for the Text Log Entry Tab
+        // Textbox displaying the list of all the created entries in the program
         private void ListLogEntries()
         {
             // Clear the TextBox before adding new entries
@@ -227,6 +262,7 @@ namespace Recording
         }
 
         // For the Text Log Entry Tab
+        // Adding functionality to the Save button on the Text Tab to save texts
         private void buttonTextSave_Click(object sender, RoutedEventArgs e)
         {
             string notes = textEssay.Text;
@@ -253,7 +289,7 @@ namespace Recording
 
 
                 // Save as a TextLogEntry if validation passes
-                TextLogEntry newEntry = new TextLogEntry(wellnessRating, qualityRating, notes);
+                LogEntry newEntry = new TextLogEntry(wellnessRating, qualityRating, notes);
 
                 // Add the new entry to the static logEntries list
                 LogEntry.logEntries.Add(newEntry);
@@ -276,11 +312,11 @@ namespace Recording
             {
                 // Catch any ArgumentException related to text entry being empty or whitespace only
                 MessageBox.Show($"Error: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                UpdateStatus($"Saving failed: {ex.Message}");
             }
         }
 
         // For the Text Log Entry Tab
+        // Adding functionality to the Delete button on the Text Tab to delete texts
         private void buttonTextDelete_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -313,10 +349,31 @@ namespace Recording
             }
         }
 
-        // Exit Button
-        private void buttonExit_Click(object sender, RoutedEventArgs e)
+        // For the Text Log Entry Tab
+        // Assigning the selected combo box item to a variable to be called later
+        private void comboWellness2_SelectionChanged_1(object sender, SelectionChangedEventArgs e)
         {
-            this.Close();
+            // comboWellness.SelectedItem --> Accesses the currently selected item in the combo box
+            // ensures the selected item is of type ComboBoxItem.
+            // If it is, it assigns it to the variable selectedItem.
+            if (comboWellness2.SelectedItem is ComboBoxItem selectedItem)
+            {
+                // Gets the content (text) of the selected combo box item
+                // Converts the content to a string, just in case it’s not already a string.
+                // Parses the string content into an integer, which is then assigned to qualityRating
+                wellnessRating = int.Parse(selectedItem.Content.ToString());
+            }
         }
+
+        // For the Text Log Entry Tab
+        // Assigning the selected combo box item to a variable to be called later
+        private void comboQuality2_SelectionChanged_1(object sender, SelectionChangedEventArgs e)
+        {
+            if (comboQuality2.SelectedItem is ComboBoxItem selectedItem)
+            {
+                qualityRating = int.Parse(selectedItem.Content.ToString());
+            }
+        }
+
     }
 }

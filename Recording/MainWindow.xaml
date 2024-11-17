@@ -101,7 +101,7 @@
                         </Grid>
                     </Button>
                     <!-- Wellness ComboBox -->
-                    <ComboBox x:Name="comboWellness" HorizontalAlignment="Left" Grid.Row="1" VerticalAlignment="Top" Width="90" Height="36" Grid.ColumnSpan="2" Margin="71,16,0,0" IsReadOnly="True" Grid.Column="4" ToolTip="Click to choose your mood level today" TabIndex="6">
+                    <ComboBox x:Name="comboWellness" HorizontalAlignment="Left" Grid.Row="1" VerticalAlignment="Top" Width="90" Height="36" Grid.ColumnSpan="2" Margin="71,16,0,0" IsReadOnly="True" Grid.Column="4" ToolTip="Click to choose your mood level today" TabIndex="6" SelectionChanged="comboWellness_SelectionChanged">
                         <ComboBoxItem Content="1"/>
                         <ComboBoxItem Content="2"/>
                         <ComboBoxItem Content="3"/>
@@ -112,7 +112,7 @@
 
                     <!-- Quality ComboBox -->
                     <Label x:Name="qualityLabel" Content="Today's _Quality:" FontFamily="Segoe UI Symbol" FontSize="12" HorizontalAlignment="Left" Margin="111,19,0,0" Grid.Row="1" VerticalAlignment="Top" Width="120" Height="30" Grid.Column="5"/>
-                    <ComboBox x:Name="comboQuality" HorizontalAlignment="Left" Grid.Row="1" VerticalAlignment="Top" Width="90" Height="36" Grid.ColumnSpan="2" Margin="212,14,0,0" Grid.Column="5" IsReadOnly="True" ToolTip="Click to choose today's quality" TabIndex="7">
+                    <ComboBox x:Name="comboQuality" HorizontalAlignment="Left" Grid.Row="1" VerticalAlignment="Top" Width="90" Height="36" Grid.ColumnSpan="2" Margin="212,14,0,0" Grid.Column="5" IsReadOnly="True" ToolTip="Click to choose today's quality" TabIndex="7" SelectionChanged="comboQuality_SelectionChanged">
                         <ComboBoxItem Content="1"/>
                         <ComboBoxItem Content="2"/>
                         <ComboBoxItem Content="3"/>
@@ -184,7 +184,7 @@
 
                     <TextBlock Text="Text Entry Log" FontWeight="Bold" FontSize="16" Grid.Row="0" Margin="304,5,0,5" Grid.ColumnSpan="3" HorizontalAlignment="Center"/>
                     <!-- Wellness ComboBox -->
-                    <ComboBox x:Name="comboWellness2" HorizontalAlignment="Left" Grid.Row="1" VerticalAlignment="Top" Width="110" Height="33" Margin="31,15,0,0" IsReadOnly="True" Grid.Column="1"  ToolTip="Click to choose your mood level today" TabIndex="16">
+                    <ComboBox x:Name="comboWellness2" HorizontalAlignment="Left" Grid.Row="1" VerticalAlignment="Top" Width="110" Height="33" Margin="31,15,0,0" IsReadOnly="True" Grid.Column="1"  ToolTip="Click to choose your mood level today" TabIndex="16" SelectionChanged="comboWellness2_SelectionChanged_1">
                         <ComboBoxItem Content="1"/>
                         <ComboBoxItem Content="2"/>
                         <ComboBoxItem Content="3"/>
@@ -195,7 +195,7 @@
 
                     <!-- Quality ComboBox -->
                     <Label x:Name="qualityLabel2" Content="Today's _Quality:" FontFamily="Segoe UI Symbol" FontSize="12" Margin="162,19,146,0" Grid.Row="1" VerticalAlignment="Top" Height="30" Grid.Column="1" Grid.ColumnSpan="2"/>
-                    <ComboBox x:Name="comboQuality2" HorizontalAlignment="Left" Grid.Row="1" VerticalAlignment="Center" Width="110" Height="36" Margin="59,0,0,0" Grid.Column="2" IsReadOnly="True" ToolTip="Click to choose today's quality" TabIndex="17">
+                    <ComboBox x:Name="comboQuality2" HorizontalAlignment="Left" Grid.Row="1" VerticalAlignment="Center" Width="110" Height="36" Margin="59,0,0,0" Grid.Column="2" IsReadOnly="True" ToolTip="Click to choose today's quality" TabIndex="17" SelectionChanged="comboQuality2_SelectionChanged_1">
                         <ComboBoxItem Content="1"/>
                         <ComboBoxItem Content="2"/>
                         <ComboBoxItem Content="3"/>
