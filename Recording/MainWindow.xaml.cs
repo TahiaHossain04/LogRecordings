@@ -184,10 +184,10 @@ namespace Recording
         // Changing of tabs
         private void TabChanged(object sender, RoutedEventArgs e)
         {
-            if (tabController.SelectedItem == tabSummary)
-            {
-                UpdateStatus("Viewing Summary");
-            }
+            //if (tabController.SelectedItem == tabSummary)
+            //{
+            //    UpdateStatus("Viewing Summary");
+            //}
             //else if (tabController.SelectedItem == tabList)
             //{
             //    UpdateListDisplay();  // This will update the list of entries on the List tab
@@ -222,11 +222,6 @@ namespace Recording
                 {
                     // Append as "Text Log Entry"
                     listEntriesTextBox.AppendText($"Text Log Entry ID: {entry.Id}, Date: {entry.EntryDate}\n");
-                }
-                else
-                {
-                    // For other types of LogEntry (if any), just use the default format
-                    listEntriesTextBox.AppendText($"Log Entry ID: {entry.Id}, Date: {entry.EntryDate}\n");
                 }
             }
         }
@@ -318,5 +313,10 @@ namespace Recording
             }
         }
 
+        // Exit Button
+        private void buttonExit_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
     }
 }

@@ -6,8 +6,8 @@
         xmlns:local="clr-namespace:Recording"
         mc:Ignorable="d"
         Title="Learning Log" WindowStartupLocation="CenterScreen" FontSize="13"
-        MinHeight="450" Height="550"
-        MinWidth="850" Width="550">
+        MinHeight="470" Height="550"
+        MinWidth="900" Width="550">
 
     <Grid>
         <Grid.RowDefinitions>
@@ -40,7 +40,7 @@
                     </Grid.RowDefinitions>
 
                     <!-- Record button -->
-                    <Button x:Name="buttonRecord" Grid.Column="2" Grid.Row="0" Width="120" Margin="0,5,79,5" Click="buttonRecord_Click" ToolTip="Click to start the audio recording" Grid.ColumnSpan="3" TabIndex="2">
+                    <Button x:Name="buttonRecord" Grid.Column="2" Grid.Row="0" Width="120" Margin="0,5,79,5" Click="buttonRecord_Click" ToolTip="Click to start the audio recording" Grid.ColumnSpan="3" TabIndex="5">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition />
@@ -53,7 +53,7 @@
                         </Grid>
                     </Button>
                     <!-- Playback button -->
-                    <Button x:Name="buttonPlay" Grid.Column="5" Grid.Row="0" Width="120" Margin="80,5,81,5" IsEnabled="False" ToolTip="Click to playback the audio recording" Click="buttonPlay_Click" TabIndex="6">
+                    <Button x:Name="buttonPlay" Grid.Column="5" Grid.Row="0" Width="120" Margin="80,5,81,5" IsEnabled="False" ToolTip="Click to playback the audio recording" Click="buttonPlay_Click" TabIndex="10">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition />
@@ -66,7 +66,7 @@
                         </Grid>
                     </Button>
                     <!-- Delete button -->
-                    <Button x:Name="buttonDelete"  Grid.Column="6" Grid.Row="0" Width="120" Margin="82,5,80,5" IsEnabled="False" ToolTip="Click to delete the audio recording" Click="buttonDelete_Click" TabIndex="7">
+                    <Button x:Name="buttonDelete"  Grid.Column="6" Grid.Row="0" Width="120" Margin="82,5,80,5" IsEnabled="False" ToolTip="Click to delete the audio recording" Click="buttonDelete_Click" TabIndex="11">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition />
@@ -85,10 +85,10 @@
                     <Label Content="_Notes:" Grid.Column="0" Grid.Row="2" Target="{Binding ElementName=textNotes}" VerticalAlignment="Top" Grid.ColumnSpan="6" Margin="0,4,264,0" Grid.RowSpan="2"/>
 
                     <!-- Row 3. Just the big textbox. -->
-                    <TextBox x:Name="textNotes" Grid.ColumnSpan="7" Grid.Row="3" Margin="5,5,5,5" ToolTip="Enter any notes about today's entry" TabIndex="5"/>
+                    <TextBox x:Name="textNotes" Grid.ColumnSpan="7" Grid.Row="3" Margin="5,5,5,5" ToolTip="Enter any notes about today's entry" TabIndex="8"/>
 
                     <!-- Row 4. Just the save button. -->
-                    <Button x:Name="buttonSave" Grid.Column="3" Grid.Row="4" Margin="38,5,8,5" IsEnabled="False" ToolTip="Click to finalize and save this entry" Click="buttonSave_Click" TabIndex="6" Width="120" Grid.ColumnSpan="2">
+                    <Button x:Name="buttonSave" Grid.Column="3" Grid.Row="4" Margin="38,5,8,5" IsEnabled="False" ToolTip="Click to finalize and save this entry" Click="buttonSave_Click" TabIndex="9" Width="120" Grid.ColumnSpan="2">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition />
@@ -101,7 +101,7 @@
                         </Grid>
                     </Button>
                     <!-- Wellness ComboBox -->
-                    <ComboBox x:Name="comboWellness" HorizontalAlignment="Left" Grid.Row="1" VerticalAlignment="Top" Width="90" Height="36" Grid.ColumnSpan="2" Margin="71,16,0,0" IsReadOnly="True" Grid.Column="4" ToolTip="Click to choose your mood level today" TabIndex="3">
+                    <ComboBox x:Name="comboWellness" HorizontalAlignment="Left" Grid.Row="1" VerticalAlignment="Top" Width="90" Height="36" Grid.ColumnSpan="2" Margin="71,16,0,0" IsReadOnly="True" Grid.Column="4" ToolTip="Click to choose your mood level today" TabIndex="6">
                         <ComboBoxItem Content="1"/>
                         <ComboBoxItem Content="2"/>
                         <ComboBoxItem Content="3"/>
@@ -112,14 +112,14 @@
 
                     <!-- Quality ComboBox -->
                     <Label x:Name="qualityLabel" Content="Today's _Quality:" FontFamily="Segoe UI Symbol" FontSize="12" HorizontalAlignment="Left" Margin="111,19,0,0" Grid.Row="1" VerticalAlignment="Top" Width="120" Height="30" Grid.Column="5"/>
-                    <ComboBox x:Name="comboQuality" HorizontalAlignment="Left" Grid.Row="1" VerticalAlignment="Top" Width="90" Height="36" Grid.ColumnSpan="2" Margin="212,14,0,0" Grid.Column="5" IsReadOnly="True" ToolTip="Click to choose today's quality" TabIndex="4">
+                    <ComboBox x:Name="comboQuality" HorizontalAlignment="Left" Grid.Row="1" VerticalAlignment="Top" Width="90" Height="36" Grid.ColumnSpan="2" Margin="212,14,0,0" Grid.Column="5" IsReadOnly="True" ToolTip="Click to choose today's quality" TabIndex="7">
                         <ComboBoxItem Content="1"/>
                         <ComboBoxItem Content="2"/>
                         <ComboBoxItem Content="3"/>
                         <ComboBoxItem Content="4"/>
                         <ComboBoxItem Content="5"/>
                     </ComboBox>
-                    <Button x:Name="buttonExit" Grid.Column="5" Grid.Row="4" Width="120" Margin="281,5,162,5" IsEnabled="False" ToolTip="Click to finalize and save this entry" Click="buttonSave_Click" TabIndex="6" Grid.ColumnSpan="2">
+                    <Button x:Name="buttonExit" Grid.Column="5" Grid.Row="4" Width="120" Margin="281,5,162,5" IsEnabled="True" ToolTip="Click to finalize and save this entry" TabIndex="12" Grid.ColumnSpan="2" Click="buttonExit_Click">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition />
@@ -136,7 +136,7 @@
             </TabItem>
 
             <!-- The summary tab. -->
-            <TabItem x:Name="tabSummary" Header="S_ummary" ToolTip="View the summary" TabIndex="8" >
+            <TabItem x:Name="tabSummary" Header="S_ummary" ToolTip="View the summary" TabIndex="2" >
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
@@ -152,18 +152,18 @@
 
                     <TextBlock Text="Recording Summary" FontWeight="Bold" FontSize="16" Grid.Row="0" Margin="304,5,0,5" Grid.ColumnSpan="3" HorizontalAlignment="Left"/>
                     <Label Grid.Column="2" Content="Number of _Entries:" HorizontalAlignment="Left" Margin="122,69,0,0" Grid.Row="3" Width="182" Height="32" FontSize="16" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalAlignment="Top"/>
-                    <TextBox x:Name="entryNumText"  Grid.Column="2" HorizontalAlignment="Left" Margin="304,69,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="239" Grid.Row="3" Height="32" HorizontalContentAlignment="Center" FontSize="14" IsReadOnly="True" ToolTip="The number of entries created today"/>
+                    <TextBox x:Name="entryNumText"  Grid.Column="2" HorizontalAlignment="Left" Margin="304,69,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="239" Grid.Row="3" Height="32" HorizontalContentAlignment="Center" FontSize="14" IsReadOnly="True" ToolTip="The number of entries created today" TabIndex="13"/>
                     <Label Grid.Column="2" Content="_First Entry:" HorizontalAlignment="Left" Margin="139,136,0,72" Grid.Row="3" Width="160" FontSize="16" FontWeight="Bold" HorizontalContentAlignment="Center"/>
                     <Label Grid.Column="2" Content="_Newest Entry:" HorizontalAlignment="Left" Margin="139,208,0,0" Grid.Row="3" Width="160" Height="32" FontSize="16" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalAlignment="Top"/>
-                    <TextBox x:Name="firstEntryText" Grid.Column="2" HorizontalAlignment="Left" Margin="304,136,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="239" Grid.Row="3" Height="32" HorizontalContentAlignment="Center" FontSize="14" IsReadOnly="True" ToolTip="Time of the first entry "/>
-                    <TextBox x:Name="newEntryText" Grid.Column="2" HorizontalAlignment="Left" Margin="304,208,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="239" Grid.Row="3" Height="32" HorizontalContentAlignment="Center" FontSize="14" IsReadOnly="True" ToolTip="Time of the latest entry"/>
+                    <TextBox x:Name="firstEntryText" Grid.Column="2" HorizontalAlignment="Left" Margin="304,136,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="239" Grid.Row="3" Height="32" HorizontalContentAlignment="Center" FontSize="14" IsReadOnly="True" ToolTip="Time of the first entry " TabIndex="14"/>
+                    <TextBox x:Name="newEntryText" Grid.Column="2" HorizontalAlignment="Left" Margin="304,208,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="239" Grid.Row="3" Height="32" HorizontalContentAlignment="Center" FontSize="14" IsReadOnly="True" ToolTip="Time of the latest entry" TabIndex="15"/>
 
                 </Grid>
 
             </TabItem>
 
             <!-- The Text Entry tab. -->
-            <TabItem x:Name="tabTextEntry" Header="_Text Entry" ToolTip="Create a new Text Entry" TabIndex="10" >
+            <TabItem x:Name="tabTextEntry" Header="_Text Entry" ToolTip="Create a new Text Entry" TabIndex="3" >
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="100"/>
@@ -184,7 +184,7 @@
 
                     <TextBlock Text="Text Entry Log" FontWeight="Bold" FontSize="16" Grid.Row="0" Margin="304,5,0,5" Grid.ColumnSpan="3" HorizontalAlignment="Center"/>
                     <!-- Wellness ComboBox -->
-                    <ComboBox x:Name="comboWellness2" HorizontalAlignment="Left" Grid.Row="1" VerticalAlignment="Top" Width="110" Height="33" Margin="31,15,0,0" IsReadOnly="True" Grid.Column="1"  ToolTip="Click to choose your mood level today" TabIndex="3">
+                    <ComboBox x:Name="comboWellness2" HorizontalAlignment="Left" Grid.Row="1" VerticalAlignment="Top" Width="110" Height="33" Margin="31,15,0,0" IsReadOnly="True" Grid.Column="1"  ToolTip="Click to choose your mood level today" TabIndex="16">
                         <ComboBoxItem Content="1"/>
                         <ComboBoxItem Content="2"/>
                         <ComboBoxItem Content="3"/>
@@ -195,17 +195,17 @@
 
                     <!-- Quality ComboBox -->
                     <Label x:Name="qualityLabel2" Content="Today's _Quality:" FontFamily="Segoe UI Symbol" FontSize="12" Margin="162,19,146,0" Grid.Row="1" VerticalAlignment="Top" Height="30" Grid.Column="1" Grid.ColumnSpan="2"/>
-                    <ComboBox x:Name="comboQuality2" HorizontalAlignment="Left" Grid.Row="1" VerticalAlignment="Center" Width="110" Height="36" Margin="59,0,0,0" Grid.Column="2" IsReadOnly="True" ToolTip="Click to choose today's quality" TabIndex="4">
+                    <ComboBox x:Name="comboQuality2" HorizontalAlignment="Left" Grid.Row="1" VerticalAlignment="Center" Width="110" Height="36" Margin="59,0,0,0" Grid.Column="2" IsReadOnly="True" ToolTip="Click to choose today's quality" TabIndex="17">
                         <ComboBoxItem Content="1"/>
                         <ComboBoxItem Content="2"/>
                         <ComboBoxItem Content="3"/>
                         <ComboBoxItem Content="4"/>
                         <ComboBoxItem Content="5"/>
                     </ComboBox>
-                    <Label x:Name="textEssayLabel" Content="Write Your Essay:" FontWeight="Bold" FontFamily="Segoe UI Symbol" FontSize="14" HorizontalAlignment="Left" Margin="28,19,0,0" Grid.Row="2" VerticalAlignment="Top" Width="172" Height="30" Grid.RowSpan="2" Grid.ColumnSpan="2"/>
-                    <TextBox x:Name="textEssay" Grid.ColumnSpan="5" Grid.Row="3" Margin="28,5,80,-29" ToolTip="Enter your essay for the day" TabIndex="5" Grid.RowSpan="4"/>
+                    <Label x:Name="textEssayLabel" Content="Write Your _Essay:" FontWeight="Bold" FontFamily="Segoe UI Symbol" FontSize="14" HorizontalAlignment="Left" Margin="28,19,0,0" Grid.Row="2" VerticalAlignment="Top" Width="172" Height="30" Grid.RowSpan="2" Grid.ColumnSpan="2"/>
+                    <TextBox x:Name="textEssay" Grid.ColumnSpan="5" Grid.Row="3" Margin="28,5,80,-29" ToolTip="Enter your essay for the day" TabIndex="18" Grid.RowSpan="4"/>
                     <!-- Row 4. Just the save button. -->
-                    <Button x:Name="buttonTextSave" Grid.Column="3" Grid.Row="1" Margin="40,16,42,14" ToolTip="Click to finalize and save this entry" TabIndex="6" IsEnabled="True" Click="buttonTextSave_Click">
+                    <Button x:Name="buttonTextSave" Grid.Column="3" Grid.Row="1" Margin="40,16,42,14" ToolTip="Click to finalize and save this entry" TabIndex="19" IsEnabled="True" Click="buttonTextSave_Click">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition />
@@ -217,7 +217,7 @@
 
                         </Grid>
                     </Button>
-                    <Button x:Name="buttonTextDelete"  Grid.Column="3" Grid.Row="1" Margin="184,16,76,14" IsEnabled="True" ToolTip="Click to delete the audio recording" TabIndex="7" Grid.ColumnSpan="2" Click="buttonTextDelete_Click">
+                    <Button x:Name="buttonTextDelete"  Grid.Column="3" Grid.Row="1" Margin="184,16,76,14" IsEnabled="True" ToolTip="Click to delete the audio recording" TabIndex="20" Grid.ColumnSpan="2" Click="buttonTextDelete_Click">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition />
@@ -234,7 +234,7 @@
             </TabItem>
 
             <!-- The list tab. -->
-            <TabItem x:Name="tabList" Header="_List" ToolTip="View the list of past entries" TabIndex="9" Margin="-2,-2,-2,2" >
+            <TabItem x:Name="tabList" Header="_List" ToolTip="View the list of past entries" TabIndex="4" Margin="-2,-2,-2,2" >
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
@@ -248,9 +248,9 @@
                         <RowDefinition Height="45"/>
                         <RowDefinition Height="180"/>
                     </Grid.RowDefinitions>
-                    <TextBlock Text="List of Entries" FontWeight="Bold" FontSize="16" Grid.Row="0" Margin="304,5,0,5" Grid.ColumnSpan="3" HorizontalAlignment="Center"/>
+                    <TextBlock Text="_List of Entries" FontWeight="Bold" FontSize="16" Grid.Row="0" Margin="304,5,0,5" Grid.ColumnSpan="3" HorizontalAlignment="Center"/>
                     <Label x:Name="listAudioLabel" Content="List of Entries:" FontWeight="Bold" FontFamily="Segoe UI Symbol" FontSize="14" HorizontalAlignment="Left" Margin="28,25,0,0" VerticalAlignment="Top" Width="172" Height="47" Grid.ColumnSpan="2" Grid.RowSpan="2"/>
-                    <TextBox x:Name="listEntriesTextBox" Grid.ColumnSpan="3" Margin="28,18,-407,63" Grid.Row="1" Grid.RowSpan="4" VerticalScrollBarVisibility="Auto" IsReadOnly="True"/>
+                    <TextBox x:Name="listEntriesTextBox" Grid.ColumnSpan="3" Margin="28,18,-407,63" Grid.Row="1" Grid.RowSpan="4" VerticalScrollBarVisibility="Auto" IsReadOnly="True" TabIndex="21"/>
                 </Grid>
 
             </TabItem>
