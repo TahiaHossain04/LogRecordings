@@ -18,6 +18,8 @@ namespace Recording
     // New Class is dclared
     internal class LogEntry
     {
+        // Static list to hold all saved entries
+        protected internal static List<LogEntry> logEntries = new List<LogEntry>();
 
         // Static variables
         // Tracks the number of LogEntry objects created.
@@ -42,6 +44,7 @@ namespace Recording
 
         // Properties
         // Allows read-only access to logID
+        // Assigning and setting unique id to each entry created (both audio and text)
         protected internal int Id
         {
             get => logID; private set
@@ -52,6 +55,7 @@ namespace Recording
         }
 
         // Provides read and write access to logDate
+        // Gets and Sets the DateTime an entry was created
         protected internal DateTime EntryDate
         {
             get => logDate; set
@@ -61,6 +65,7 @@ namespace Recording
         }
 
         // Read and Write
+        // Takes the value from the combobox and allows to set it 
         protected internal int Wellness
         {
             get => logWellness; set
@@ -69,6 +74,8 @@ namespace Recording
             }
         }
 
+        // Read and Write
+        // Takes the value from the combobox and allows to set it 
         protected internal int Quality
         {
             get => logQuality; set
@@ -77,19 +84,14 @@ namespace Recording
             }
         }
 
+        // Read and Write the string called notes
+        // Notes in the Audio Entry Tab
+        // Essay Textbox in the Text Entry Tab
         protected internal string Notes
         {
             get => logNotes; set
             {
-                if (value.Trim().Length > 0)
-                {
-                    logNotes = value;
-                }
-                else
-                {
-                    MessageBox.Show("The notes have been left blank.", "Entry Error");
-                    logNotes = value;
-                }
+                logNotes = value;
             }
         }
 
@@ -107,8 +109,6 @@ namespace Recording
         protected internal static DateTime NewestEntry => newestEntry;
 
         // Displays a log entry as a string
-        // Logs entry as a string
-        // Has to be public, why?
         public override string ToString()
         {
             return $"Entry {Id} created at {EntryDate}, Wellness: {Wellness}, Quality: {Quality}, Notes: {Notes}";

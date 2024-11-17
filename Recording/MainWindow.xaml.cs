@@ -38,12 +38,17 @@ namespace Recording
         private string firstEntryTime = ""; // Time of the first entry
         private string latestEntryTime = ""; // Time of the latest entry
 
+
+
         public MainWindow()
         {
             InitializeComponent();
 
         }
 
+        // Text Log Tab Event Handlers
+
+        // Only for the Audio Log Entry Tab
         // Adding functionality to the Record button
         private void buttonRecord_Click(object sender, RoutedEventArgs e)
         {
@@ -71,43 +76,64 @@ namespace Recording
             }
         }
 
+        // For the Audio Log Entry Tab
         // Adding functionality to the Save button
         private void buttonSave_Click(object sender, RoutedEventArgs e)
         {
-            // Create a new LogEntry object
-            LogEntry newEntry = new AudioLogEntry(wellnessRating, qualityRating, textNotes.Text, recordingFile);
-            UpdateStatus(newEntry.ToString());
-
-            // Increment the count of entries
-            entryCount++;
-
-            // Get the current date and time
-            string currentTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-
-            // Check if it's the first entry
-            if (entryCount == 1)
+            try
             {
-                firstEntryTime = currentTime; // Set the first entry time
+                // Validate the notes field to ensure it's not empty or whitespace
+                // Checks if the field has white space or if its null
+                if (string.IsNullOrWhiteSpace(textNotes.Text))
+                {
+                    // If yes then initiates an Argument Exception and executes the catch block by stopping the try block
+                    throw new ArgumentException("Notes have been left empty or contain only whitespace.");
+                }
+
+                // Create a new LogEntry object
+                LogEntry newEntry = new AudioLogEntry(wellnessRating, qualityRating, textNotes.Text, recordingFile);
+                UpdateStatus(newEntry.ToString());
+
+                // Add the new entry to the static logEntries list
+                LogEntry.logEntries.Add(newEntry);
+
+                // Increment the count of entries
+                entryCount++;
+
+                // Get the current date and time
+                string currentTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+
+                // Check if it's the first entry
+                if (entryCount == 1)
+                {
+                    firstEntryTime = currentTime; // Set the first entry time
+                }
+
+                latestEntryTime = currentTime; // Update the latest entry time
+
+                // Update the summary display
+                UpdateSummary();
+
+                // Update buttons
+                buttonRecord.IsEnabled = true;
+                buttonPlay.IsEnabled = false;
+                buttonDelete.IsEnabled = false;
+                textNotes.Text = "";
+
+                comboWellness.SelectedIndex = 0;
+                comboQuality.SelectedIndex = 0;
+
+                // Mark the entry as saved
+                entrySaved = true;
+                buttonSave.IsEnabled = false; // Disable the save button after saving
             }
 
-            latestEntryTime = currentTime; // Update the latest entry time
+            catch (ArgumentException ex)
+            {
+                // Catch the ArgumentException thrown when notes are empty or whitespace
+                MessageBox.Show($"Warning: {ex.Message}", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
 
-            // Update the summary display
-            UpdateSummary();
-
-            // Update buttons
-            buttonRecord.IsEnabled = true;
-            buttonPlay.IsEnabled = false;
-            buttonDelete.IsEnabled = false;
-            textNotes.Text = "";
-
-            // https://stackoverflow.com/questions/47222611/c-sharp-combobox-selected-index-1-not-working
-            comboWellness.SelectedIndex = -1;
-            comboQuality.SelectedIndex = -1;
-
-            // Mark the entry as saved
-            entrySaved = true;
-            buttonSave.IsEnabled = false; // Disable the save button after saving
         }
 
         // Updating status bar of the program
@@ -116,6 +142,7 @@ namespace Recording
             statusState.Content = status;
         }
 
+        // For the Audio Log Entries only
         // Updating summary tab's textboxes
         private void UpdateSummary()
         {
@@ -125,6 +152,7 @@ namespace Recording
             entryNumText.Text = entryCount.ToString(); // Show total entries
         }
 
+        // Only for the Audio Log Entry Tab
         // Adding functionality to the Play button
         private void buttonPlay_Click(object sender, RoutedEventArgs e)
         {
@@ -133,19 +161,8 @@ namespace Recording
             UpdateStatus("Playing " + recordingFile.FullName + ".");
         }
 
-        private void TabChanged(object sender, RoutedEventArgs e)
-        {
-            if (tabController.SelectedItem == tabSummary)
-            {
-                UpdateStatus("Viewing Summary");
-            }
-            //else if (tabController.SelectedItem == tabList)
-            //{
-            //    UpdateListDisplay();  // This will update the list of entries on the List tab
-            //}
-        }
 
-
+        // For the Audio Log Entry Tab
         // Adding functionality to the Delete button
         private void buttonDelete_Click(object sender, RoutedEventArgs e)
         {
@@ -159,115 +176,147 @@ namespace Recording
             buttonDelete.IsEnabled = false;
             buttonSave.IsEnabled = false;
             textNotes.Text = "";
-            // https://learn.microsoft.com/en-us/dotnet/api/system.windows.forms.combobox.selectedindex?view=windowsdesktop-8.0
-            comboWellness.SelectedIndex = -1;
-            comboQuality.SelectedIndex = -1;
+            comboWellness.SelectedIndex = 0;
+            comboQuality.SelectedIndex = 0;
         }
 
-        // Adding functionality to the Wellness Combobox
-        // https://stackoverflow.com/questions/4902039/difference-between-selecteditem-selectedvalue-and-selectedvaluepath
-        // https://chatgpt.com/
-        // https://stackoverflow.com/questions/7396549/getting-selected-object-from-comboxs-selecteditem
-        private void comboWellness_SelectionChanged(object sender, SelectionChangedEventArgs e)
+
+        // Changing of tabs
+        private void TabChanged(object sender, RoutedEventArgs e)
         {
-            // comboWellness.SelectedItem --> Accesses the currently selected item in the combo box
-            // ensures the selected item is of type ComboBoxItem.
-            // If it is, it assigns it to the variable selectedItem.
-            if (comboWellness.SelectedItem is ComboBoxItem selectedItem)
+            if (tabController.SelectedItem == tabSummary)
             {
-                // Gets the content (text) of the selected combo box item
-                // Converts the content to a string, just in case it’s not already a string.
-                // Parses the string content into an integer, which is then assigned to qualityRating
-                wellnessRating = int.Parse(selectedItem.Content.ToString());
-                UpdateStatus($"Wellness/Mood rating set to {wellnessRating}.");
+                UpdateStatus("Viewing Summary");
+            }
+            //else if (tabController.SelectedItem == tabList)
+            //{
+            //    UpdateListDisplay();  // This will update the list of entries on the List tab
+            //}
+            // WHen tab changed to List Tab, the created log entries are displayed in a list format
+            if (tabController.SelectedItem == tabList)  // When the List tab is selected
+            {
+                // Populates the TextBox with the list of saved entries
+                ListLogEntries();
             }
         }
 
-        // Adding functionality to the Quality Combobox
-        private void comboQuality_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        // Text Log Tab Event Handlers
+
+        // Only for the Text Log Entry Tab
+        private void ListLogEntries()
         {
-            if (comboQuality.SelectedItem is ComboBoxItem selectedItem)
+            // Clear the TextBox before adding new entries
+            listEntriesTextBox.Clear();
+
+            // Loop through all the saved LogEntry objects and display their IDs and dates
+            // OpenAI. (2024). ChatGPT [Large language model]. https://chatgpt.com
+            foreach (var entry in LogEntry.logEntries)
             {
-                qualityRating = int.Parse(selectedItem.Content.ToString());
-                UpdateStatus($"Quality rating set to {qualityRating}.");
+                // Check if the entry is of type AudioLogEntry or TextLogEntry
+                if (entry is AudioLogEntry)
+                {
+                    // Append as "Audio Log Entry"
+                    listEntriesTextBox.AppendText($"Audio Log Entry ID: {entry.Id}, Date: {entry.EntryDate}\n");
+                }
+                else if (entry is TextLogEntry)
+                {
+                    // Append as "Text Log Entry"
+                    listEntriesTextBox.AppendText($"Text Log Entry ID: {entry.Id}, Date: {entry.EntryDate}\n");
+                }
+                else
+                {
+                    // For other types of LogEntry (if any), just use the default format
+                    listEntriesTextBox.AppendText($"Log Entry ID: {entry.Id}, Date: {entry.EntryDate}\n");
+                }
             }
         }
 
+        // For the Text Log Entry Tab
         private void buttonTextSave_Click(object sender, RoutedEventArgs e)
         {
             string notes = textEssay.Text;
-            string essayNotes = textEssayNotes.Text;
 
-            // Validate notes before saving
-            if (string.IsNullOrWhiteSpace(notes))
+            //// Validate notes before saving
+            //if (string.IsNullOrWhiteSpace(notes))
+            //{
+            //    MessageBox.Show("Cannot save. The text entry field is empty.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            //    UpdateStatus("Save failed: Text entry is empty.");
+            //    return; // Exit without saving
+            //}
+
+            try
             {
-                MessageBox.Show("Cannot save. The text entry field is empty.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                UpdateStatus("Save failed: Text entry is empty.");
-                return; // Exit without saving
-            }
+                // Check if the notes field is empty or contains only white spaces
+                if (string.IsNullOrWhiteSpace(notes))
+                {
+                    // Reset the field
+                    textEssay.Clear();
 
-            if (string.IsNullOrWhiteSpace(essayNotes))
+                    // Throw the Exception (error message box)
+                    throw new ArgumentException("Failed Saving. The text entry field is empty or only contains spaces.");
+                }
+
+
+                // Save as a TextLogEntry if validation passes
+                TextLogEntry newEntry = new TextLogEntry(wellnessRating, qualityRating, notes);
+
+                // Add the new entry to the static logEntries list
+                LogEntry.logEntries.Add(newEntry);
+
+                // Increment the count of entries
+                entryCount++;
+
+                // Reset fields and update UI
+                textEssay.Clear();
+                comboWellness2.SelectedIndex = 0;
+                comboQuality2.SelectedIndex = 0;
+
+                entrySaved = true;
+                MessageBox.Show("Text Entry saved successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+
+                // Update status to reflect the successful save
+                UpdateStatus($"Text Entry Saved: {newEntry}");
+            }
+            catch (ArgumentException ex)
             {
-                MessageBox.Show("The text notes field is empty!", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
+                // Catch any ArgumentException related to text entry being empty or whitespace only
+                MessageBox.Show($"Error: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                UpdateStatus($"Saving failed: {ex.Message}");
             }
-
-            // Save as a TextLogEntry
-            TextLogEntry newEntry = new TextLogEntry(wellnessRating, qualityRating, notes);
-            UpdateStatus($"Text Entry Saved: {newEntry}");
-
-            // Increment the count of entries
-            entryCount++;
-
-            // Reset fields and update UI
-            textEssay.Clear();
-            comboWellness.SelectedIndex = -1;
-            comboQuality.SelectedIndex = -1;
-
-            entrySaved = true;
-            MessageBox.Show("Text Entry saved successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
+        // For the Text Log Entry Tab
         private void buttonTextDelete_Click(object sender, RoutedEventArgs e)
         {
-            // Validate text field before deleting
-            if (string.IsNullOrWhiteSpace(textNotes.Text))
+            try
             {
-                MessageBox.Show("Cannot delete. The text entry field is empty.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                UpdateStatus("Delete failed: Text entry is empty.");
-                return; // Exit without deleting
+                string notes = textEssay.Text;
+
+                // Validate text field before deleting
+                if (string.IsNullOrWhiteSpace(notes))
+                {
+                    // Reset the field
+                    textEssay.Clear();
+
+                    // Throw the Exception (error message box)
+                    throw new ArgumentException("Failed Deletion. The text entry field is empty.");
+                }
+
+                // Clear the fields and notify the user
+                textEssay.Clear();
+                comboWellness2.SelectedIndex = 0;
+                comboQuality2.SelectedIndex = 0;
+
+                UpdateStatus("Text entry deleted.");
+                MessageBox.Show("Text entry deleted successfully.", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
             }
-
-            // Clear the fields and notify the user
-            textEssay.Clear();
-            comboWellness.SelectedIndex = -1;
-            comboQuality.SelectedIndex = -1;
-
-            UpdateStatus("Text entry deleted.");
-            MessageBox.Show("Text entry deleted successfully.", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
-        }
-
-        private void comboWellness2_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            // comboWellness.SelectedItem --> Accesses the currently selected item in the combo box
-            // ensures the selected item is of type ComboBoxItem.
-            // If it is, it assigns it to the variable selectedItem.
-            if (comboWellness2.SelectedItem is ComboBoxItem selectedItem)
+            catch (ArgumentException ex)
             {
-                // Gets the content (text) of the selected combo box item
-                // Converts the content to a string, just in case it’s not already a string.
-                // Parses the string content into an integer, which is then assigned to qualityRating
-                wellnessRating = int.Parse(selectedItem.Content.ToString());
-                UpdateStatus($"Wellness/Mood rating set to {wellnessRating}.");
+                // Catch any ArgumentException related to text entry being empty or whitespace only
+                MessageBox.Show($"Error: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                UpdateStatus($"Deletion failed: {ex.Message}");
             }
         }
 
-        private void comboQuality2_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (comboQuality2.SelectedItem is ComboBoxItem selectedItem)
-            {
-                qualityRating = int.Parse(selectedItem.Content.ToString());
-                UpdateStatus($"Quality rating set to {qualityRating}.");
-            }
-        }
     }
 }

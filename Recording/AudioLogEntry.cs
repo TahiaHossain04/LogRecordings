@@ -35,6 +35,13 @@ namespace Recording
         // Accepts the four parameters
         public AudioLogEntry(int wellnessValue, int qualityValue, string notesValue, FileInfo filevalue)
         {
+            // Validate notes for empty or whitespace-only values
+            if (string.IsNullOrWhiteSpace(notesValue))
+            {
+                // Throw ArgumentException if notes are empty or contain only spaces
+                throw new ArgumentException("Notes cannot be empty or contain only spaces.", nameof(notesValue));
+            }
+
             // Update the static variables
             // Updates the count
             count++;
@@ -51,7 +58,7 @@ namespace Recording
             Wellness = wellnessValue;
             Quality = qualityValue;
             Notes = notesValue;
-            RecordingFile = filevalue;
+            RecordingFile = filevalue; // Stores the entry as a file
         }
 
         // Properties

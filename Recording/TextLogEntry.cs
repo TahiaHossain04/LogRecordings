@@ -6,35 +6,32 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace Recording
 {
-    internal class TextLogEntry : LogEntry
+    class TextLogEntry : LogEntry
     {
         // Static variables are inherited from LogEntry
 
         // Instance variables
         private string textContent;
 
-        // Default constructor
+        // Constructor
         public TextLogEntry()
         {
             count++;
             logID = count; // Assign unique ID
         }
 
-        // Constructor with parameters
+        // Accepts the four parameters
         public TextLogEntry(int wellnessValue, int qualityValue, string notesValue)
         {
-            count++; // Increment the count
-            if (count == 1)
-            {
-                firstEntry = DateTime.Now; // Set first entry time if it's the first entry
-            }
-            newestEntry = DateTime.Now; // Update latest entry time
+            count++; // Increment the count of text entries created
 
             // Assign values to properties
             logID = count;
@@ -49,6 +46,11 @@ namespace Recording
         {
             get => textContent; set
             {
+                // Validate if text content is empty or null
+                if (string.IsNullOrWhiteSpace(value))
+                {
+                    throw new ArgumentException("Text content cannot be empty or whitespace.", nameof(TextContent));
+                }
                 textContent = value;
             }
         }
@@ -56,7 +58,7 @@ namespace Recording
         // Override ToString for display in the ListView
         public override string ToString()
         {
-            return "Text " + base.ToString();
+            return $"Text Entry {Id} created at {EntryDate}, Wellness: {Wellness}, Quality: {Quality}, Essay: {Notes}";
         }
     }
 }
