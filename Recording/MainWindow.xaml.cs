@@ -52,7 +52,7 @@ namespace Recording
         {
             if (!isRecording)
             {
-                labelRecordText.Content = "Stop";
+                labelRecordText.Content = "_Stop";
                 isRecording = true;
                 RecordWav.StartRecording();
                 buttonSave.IsEnabled = false; // Disable save button while recording
