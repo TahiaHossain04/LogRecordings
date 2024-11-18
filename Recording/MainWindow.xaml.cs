@@ -375,5 +375,19 @@ namespace Recording
             }
         }
 
+        private void buttonTextEntryDelete_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
+
+        private void buttonSummaryExit_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
+
+        private void buttonListExit_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
     }
 }
