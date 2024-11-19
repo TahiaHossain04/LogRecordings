@@ -76,9 +76,10 @@ namespace Recording
         // Displays a log entry as a string
         // Logs entry as a string
         // Has to be public, why?
+        // Override ToString for display in the ListView
         public override string ToString()
         {
-            return "Audio " + base.ToString();
+            return $"Audio Entry {Id} created at {EntryDate}, Wellness: {Wellness}, Quality: {Quality}, Essay: {Notes}";
         }
     }
 }

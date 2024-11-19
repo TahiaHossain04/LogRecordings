@@ -40,7 +40,7 @@ namespace Recording
         protected string logNotes = String.Empty;
 
         // Constructors
-        // Cant instantiate?
+
 
         // Properties
         // Allows read-only access to logID
@@ -108,11 +108,7 @@ namespace Recording
 
         protected internal static DateTime NewestEntry => newestEntry;
 
-        // Displays a log entry as a string
-        public override string ToString()
-        {
-            return $"Entry {Id} created at {EntryDate}, Wellness: {Wellness}, Quality: {Quality}, Notes: {Notes}";
-        }
+
     }
 }
 

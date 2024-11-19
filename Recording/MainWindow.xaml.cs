@@ -136,7 +136,7 @@ namespace Recording
                 MessageBox.Show("Audio Entry saved successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
 
                 // Update status to reflect the successful save
-                UpdateStatus($"Text Entry Saved: {newEntry}");
+                UpdateStatus($"{newEntry}");
 
                 // Update the summary display
                 UpdateSummary();
@@ -306,7 +306,7 @@ namespace Recording
                 MessageBox.Show("Text Entry saved successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
 
                 // Update status to reflect the successful save
-                UpdateStatus($"Text Entry Saved: {newEntry}");
+                UpdateStatus($"{newEntry}");
             }
             catch (ArgumentException ex)
             {

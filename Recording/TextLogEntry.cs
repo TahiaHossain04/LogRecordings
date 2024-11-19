@@ -21,7 +21,7 @@ namespace Recording
         // Instance variables
         private string textContent;
 
-        // Constructor
+        //Constructor
         public TextLogEntry()
         {
             count++;
@@ -31,7 +31,17 @@ namespace Recording
         // Accepts the four parameters
         public TextLogEntry(int wellnessValue, int qualityValue, string notesValue)
         {
-            count++; // Increment the count of text entries created
+                        // Update the static variables
+            // Updates the count
+            count++;
+            if (count == 1) // Checks if its the first entry
+            {
+                // If yes, then sets firstEntry to the current date and time
+                firstEntry = DateTime.Now;
+            }
+            // If not new entry, updated the latest entry to be the current date and time
+            newestEntry = DateTime.Now;
+
 
             // Assign values to properties
             logID = count;
