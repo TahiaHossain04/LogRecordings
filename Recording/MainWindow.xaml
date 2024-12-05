@@ -258,12 +258,13 @@
             </TabItem>
 
             <!-- The list tab. -->
-            <TabItem x:Name="tabList" Header="_List" ToolTip="View the list of past entries" TabIndex="4" Margin="-2,-2,-2,2" >
+            <TabItem x:Name="tabList" Header="_List" ToolTip="View the list of past entries" TabIndex="4" Margin="-2,-2,-2,0" Height="21" VerticalAlignment="Top" >
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="75.4"/>
+                        <ColumnDefinition Width="461.6"/>
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="50"/>
@@ -272,10 +273,20 @@
                         <RowDefinition Height="45"/>
                         <RowDefinition Height="180"/>
                     </Grid.RowDefinitions>
-                    <TextBlock Text="Entry List" FontWeight="Bold" FontSize="18" Grid.Row="0" Margin="201,5,0,5" HorizontalAlignment="Left" Grid.Column="2" Width="302" ToolTip="Entry List"/>
+                    <TextBlock Text="Entry List" FontWeight="Bold" FontSize="18" Grid.Row="0" Margin="126,5,0,5" HorizontalAlignment="Left" Grid.Column="3" Width="302" ToolTip="Entry List"/>
                     <Label x:Name="listAudioLabel" Content="List of _Entries:" FontWeight="Bold" FontFamily="Segoe UI Symbol" FontSize="14" HorizontalAlignment="Left" Margin="28,25,0,0" VerticalAlignment="Top" Width="172" Height="70" Grid.ColumnSpan="2" Grid.RowSpan="2" ToolTip="List of All Entries"/>
-                    <TextBox x:Name="listEntriesTextBox" Grid.ColumnSpan="3" Margin="28,18,-161,120" Grid.Row="1" Grid.RowSpan="4" VerticalScrollBarVisibility="Auto" IsReadOnly="True" TabIndex="1" ToolTip="Viewing the List of all Audio and Text Entries"/>
-                    <Button x:Name="buttonListExit" Grid.Column="2" HorizontalAlignment="Left" Margin="179,0,0,0" Grid.Row="4" VerticalAlignment="Center" Width="134" Height="44" Click="buttonListExit_Click" TabIndex="2" ToolTip="Click to Exit the Program">
+                    <ListView x:Name="listViewEntries" ItemsSource="{Binding}" Grid.ColumnSpan="4" Margin="28,18,-158,120" Grid.Row="1" Grid.RowSpan="4" SelectionChanged="ListViewEntries_SelectionChanged">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Header="ID" DisplayMemberBinding="{Binding Id}" Width="100" />
+                                <GridViewColumn Header="Date" DisplayMemberBinding="{Binding EntryDate}" Width="200" />
+                                <GridViewColumn Header="Wellness" DisplayMemberBinding="{Binding Wellness}" Width="100" />
+                                <GridViewColumn Header="Quality" DisplayMemberBinding="{Binding Quality}" Width="100" />
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+
+                    <Button x:Name="buttonListExit" Grid.Column="3" HorizontalAlignment="Left" Margin="328,78,0,0" Grid.Row="4" VerticalAlignment="Top" Width="134" Height="44" Click="buttonListExit_Click" TabIndex="2" ToolTip="Click to Exit the Program">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition />
@@ -284,6 +295,30 @@
 
                             <Label FontFamily="Segoe UI Symbol" FontSize="20" Content="" Grid.Column="0" HorizontalAlignment="Right"/>
                             <Label Content="E_xit" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+
+                        </Grid>
+                    </Button>
+                    <Button x:Name="buttonListDelete" Grid.Column="3" HorizontalAlignment="Left" Margin="127,78,0,0" Grid.Row="4" VerticalAlignment="Top" Width="134" Height="44" Click="buttonListDelete_Click" TabIndex="2" ToolTip="Click to Delete an Entry">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+
+                            <Label FontFamily="Segoe UI Symbol" FontSize="20" Content="&#xE127;" Grid.Column="0" HorizontalAlignment="Right"/>
+                            <Label Content="_Delete" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+
+                        </Grid>
+                    </Button>
+                    <Button x:Name="buttonListEdit" Grid.Column="2" HorizontalAlignment="Left" Margin="0,78,0,0" Grid.Row="4" VerticalAlignment="Top" Width="134" Height="44" Click="buttonListEdit_Click" TabIndex="2" ToolTip="Click to Edit an Entry" Grid.ColumnSpan="2">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+
+                            <Label FontFamily="Segoe UI Symbol" FontSize="19" Content="&#xE127;" Grid.Column="0" HorizontalAlignment="Right"/>
+                            <Label Content="Ed_it" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Right" Width="30"/>
 
                         </Grid>
                     </Button>

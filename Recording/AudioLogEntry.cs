@@ -1,82 +1,84 @@
 ﻿// Author:        Tahia Hossain
-// File:          Recording (version 2)
-// Date Created:  13th November 2024
-// Date Modified: 16th November 2024
+// File:          Recording (version 3)
+// Date Created:  29th November 2024
+// Date Modified: 05th December 2024
 // Description:   An inherited class created to keep track of the entered audio logs 
-
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 
 namespace Recording
 {
-    class AudioLogEntry : LogEntry
+    [Serializable]
+    public class AudioLogEntry : LogEntry
     {
-        // Static variables 
-        // All inherited
+        public FileInfo logFile;
 
-        // Instance variable
-        private FileInfo logFile;
-
-        // Constructors
-
-        // Default sets the count and id values
-        // Increments the count each time a LogEntry is created and assigns a unique ID
         public AudioLogEntry()
         {
             count++;
             logID = count;
         }
 
-        // Accepts the four parameters
         public AudioLogEntry(int wellnessValue, int qualityValue, string notesValue, FileInfo filevalue)
         {
-            // Validate notes for empty or whitespace-only values
             if (string.IsNullOrWhiteSpace(notesValue))
             {
-                // Throw ArgumentException if notes are empty or contain only spaces
-                throw new ArgumentException("Notes cannot be empty or contain only spaces.", nameof(notesValue));
+                throw new ArgumentException("Notes cannot be empty or contain only spaces.");
             }
 
-            // Update the static variables
-            // Updates the count
             count++;
-            if (count == 1) // Checks if its the first entry
+            if (count == 1)
             {
-                // If yes, then sets firstEntry to the current date and time
                 firstEntry = DateTime.Now;
             }
-            // If not new entry, updated the latest entry to be the current date and time
             newestEntry = DateTime.Now;
 
-            // Assigns values to these five parameters usign properties
             logID = count;
             Wellness = wellnessValue;
             Quality = qualityValue;
             Notes = notesValue;
-            RecordingFile = filevalue; // Stores the entry as a file
-        }
+            RecordingFile = filevalue;
 
-        // Properties
-        // Everything is inherited
+            SaveToFile("AudioEntries");
+
+            logEntries.Add(this);
+            JsonDataHandler.SaveEntries(logEntries);
+        }
 
         public FileInfo RecordingFile
         {
-            get => logFile; set
+            get => logFile;
+            set => logFile = value;
+        }
+
+        private void SaveToFile(string directory)
+        {
+            try
             {
-                logFile = value;
+                Directory.CreateDirectory(directory);
+                string timestamp = DateTime.Now.ToString("yyyyMMdd_HHmmssfff");
+                string fileName = Path.Combine(directory, $"{logID}_{timestamp}_entry.wav");
+
+                Console.WriteLine($"Saving file: {fileName}");
+
+                if (logFile != null && logFile.Exists)
+                {
+                    File.Copy(logFile.FullName, fileName);
+                    Console.WriteLine($"File saved successfully at: {fileName}");
+                }
+                else
+                {
+                    throw new ArgumentException("The specified audio file does not exist.");
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error saving audio entry: {ex.Message}");
+                MessageBox.Show($"Error saving audio entry: {ex.Message}", "Save Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
-
-        // Displays a log entry as a string
-        // Logs entry as a string
-        // Has to be public, why?
-        // Override ToString for display in the ListView
         public override string ToString()
         {
             return $"Audio Entry {Id} created at {EntryDate}, Wellness: {Wellness}, Quality: {Quality}, Essay: {Notes}";

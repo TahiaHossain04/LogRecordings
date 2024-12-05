@@ -5,19 +5,10 @@
 // Description:   The main wind of the XAML file to store the event handlers for all the
 //                buttons and fields on the XAML file.
 
-
 using System.IO;
 using System.Media;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace Recording
 {
@@ -41,6 +32,16 @@ namespace Recording
         public MainWindow()
         {
             InitializeComponent();
+            // Bind the ListView to the static List of LogEntries
+            foreach (var item in LogEntry.logEntries)
+            {
+                listViewEntries.Items.Add(item);
+
+            }
+            //listViewEntries.ItemsSource = LogEntry.List;
+            listViewEntries.Items.Add("Great");
+
+            LogEntry.logEntries = JsonDataHandler.LoadEntries();
 
         }
 
@@ -102,22 +103,16 @@ namespace Recording
             try
             {
                 // Validate the notes field to ensure it's not empty or whitespace
-                // Checks if the field has white space or if its null
                 if (string.IsNullOrWhiteSpace(textNotes.Text))
                 {
-                    // If yes then initiates an Argument Exception and executes the catch block by stopping the try block
                     throw new ArgumentException("Notes have been left empty or contain only whitespace.");
                 }
 
+                // Create a new AudioLogEntry object
+                LogEntry audioLogEntry = new AudioLogEntry(wellnessRating, qualityRating, textNotes.Text, recordingFile);
 
-                // Create a new LogEntry object
-                LogEntry newEntry = new AudioLogEntry(wellnessRating, qualityRating, textNotes.Text, recordingFile);
-
-                //// Update status with the full log entry details
-                //UpdateStatus(newEntry.ToString());
-
-                // Add the new entry to the static logEntries list
-                LogEntry.logEntries.Add(newEntry);
+                // Clear the ListView and add all entries
+                UpdateListView();
 
                 // Increment the count of entries
                 entryCount++;
@@ -136,7 +131,7 @@ namespace Recording
                 MessageBox.Show("Audio Entry saved successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
 
                 // Update status to reflect the successful save
-                UpdateStatus($"{newEntry}");
+                UpdateStatus($"{audioLogEntry}");
 
                 // Update the summary display
                 UpdateSummary();
@@ -153,16 +148,13 @@ namespace Recording
                 // Mark the entry as saved
                 entrySaved = true;
                 buttonSave.IsEnabled = false; // Disable the save button after saving
-            
             }
-
             catch (ArgumentException ex)
             {
-                // Catch the ArgumentException thrown when notes are empty or whitespace
                 MessageBox.Show($"Warning: {ex.Message}", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
             }
-
         }
+
 
         // Updating status bar of the program
         private void UpdateStatus(string status)
@@ -175,9 +167,9 @@ namespace Recording
         private void UpdateSummary()
         {
             // Update the summary text boxes directly
-            firstEntryText.Text = firstEntryTime; // Show first entry time
-            newEntryText.Text = latestEntryTime; // Show latest entry time
-            entryNumText.Text = entryCount.ToString(); // Show total entries
+            firstEntryText.Text = LogEntry.FirstEntry.ToString("yyy-MM-dd HH:mm:ss"); // Show first entry time
+            newEntryText.Text = LogEntry.NewestEntry.ToString("yyy-MM-dd HH:mm:ss"); // Show latest entry time
+            entryNumText.Text = LogEntry.Count.ToString(); // Show total entries
         }
 
         // Only for the Audio Log Entry Tab
@@ -218,48 +210,33 @@ namespace Recording
         // Changing of tabs
         private void TabChanged(object sender, RoutedEventArgs e)
         {
-            //if (tabController.SelectedItem == tabSummary)
+            //if (tabController.SelectedItem == tabAudioEntry)
             //{
-            //    UpdateStatus("Viewing Summary");
+            //    //Update the summary tab fields
+            //    UpdateStatus("Viewing Entry tab");
             //}
+            //else if (tabController.SelectedItem == tabSummary)
+            //{
+
+            //    UpdateStatus("Viewing Summary tab");
+
+            //}
+            //else if (tabController.SelectedItem == tabTextEntry)
+            //{
+            //    UpdateStatus("Viewing File log Entry tab");
+            //}
+
             //else if (tabController.SelectedItem == tabList)
             //{
-            //    UpdateListDisplay();  // This will update the list of entries on the List tab
+            //    //listViewEntries.ItemsSource = LogEntry.Entries; 
+            //    UpdateStatus("Viewing List tab");
             //}
-            // WHen tab changed to List Tab, the created log entries are displayed in a list format
-            if (tabController.SelectedItem == tabList)  // When the List tab is selected
+            if (tabController.SelectedItem == tabSummary)
             {
-                // Populates the TextBox with the list of saved entries
-                ListLogEntries();
+                UpdateSummary();
             }
         }
 
-        // Text Log Tab Event Handlers
-
-        // Only for the Text Log Entry Tab
-        // Textbox displaying the list of all the created entries in the program
-        private void ListLogEntries()
-        {
-            // Clear the TextBox before adding new entries
-            listEntriesTextBox.Clear();
-
-            // Loop through all the saved LogEntry objects and display their IDs and dates
-            // OpenAI. (2024). ChatGPT [Large language model]. https://chatgpt.com
-            foreach (var entry in LogEntry.logEntries)
-            {
-                // Check if the entry is of type AudioLogEntry or TextLogEntry
-                if (entry is AudioLogEntry)
-                {
-                    // Append as "Audio Log Entry"
-                    listEntriesTextBox.AppendText($"Audio Log Entry ID: {entry.Id}, Date: {entry.EntryDate}\n");
-                }
-                else if (entry is TextLogEntry)
-                {
-                    // Append as "Text Log Entry"
-                    listEntriesTextBox.AppendText($"Text Log Entry ID: {entry.Id}, Date: {entry.EntryDate}\n");
-                }
-            }
-        }
 
         // For the Text Log Entry Tab
         // Adding functionality to the Save button on the Text Tab to save texts
@@ -267,32 +244,20 @@ namespace Recording
         {
             string notes = textEssay.Text;
 
-            //// Validate notes before saving
-            //if (string.IsNullOrWhiteSpace(notes))
-            //{
-            //    MessageBox.Show("Cannot save. The text entry field is empty.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            //    UpdateStatus("Save failed: Text entry is empty.");
-            //    return; // Exit without saving
-            //}
-
             try
             {
                 // Check if the notes field is empty or contains only white spaces
                 if (string.IsNullOrWhiteSpace(notes))
                 {
-                    // Reset the field
                     textEssay.Clear();
-
-                    // Throw the Exception (error message box)
                     throw new ArgumentException("Failed Saving. The text entry field is empty or only contains spaces.");
                 }
-
 
                 // Save as a TextLogEntry if validation passes
                 LogEntry newEntry = new TextLogEntry(wellnessRating, qualityRating, notes);
 
-                // Add the new entry to the static logEntries list
-                LogEntry.logEntries.Add(newEntry);
+                // Clear the ListView and add all entries
+                UpdateListView();
 
                 // Increment the count of entries
                 entryCount++;
@@ -310,8 +275,18 @@ namespace Recording
             }
             catch (ArgumentException ex)
             {
-                // Catch any ArgumentException related to text entry being empty or whitespace only
                 MessageBox.Show($"Error: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private void UpdateListView()
+        {
+            listViewEntries.Items.Clear();
+            foreach (var item in LogEntry.logEntries)
+            {
+                ListViewItem listViewItem = new ListViewItem();
+                listViewItem.Content = new { Id = item.Id, EntryDate = item.EntryDate, Notes = item.Notes, Wellness = item.Wellness, Quality = item.Quality };
+                listViewEntries.Items.Add(listViewItem);
             }
         }
 
@@ -330,7 +305,7 @@ namespace Recording
                     textEssay.Clear();
 
                     // Throw the Exception (error message box)
-                    throw new ArgumentException("Failed Deletion. The text entry field is empty.");
+                    //throw new ArgumentException("Failed Deletion. The text entry field is empty.");
                 }
 
                 // Clear the fields and notify the user
@@ -338,14 +313,14 @@ namespace Recording
                 comboWellness2.SelectedIndex = 0;
                 comboQuality2.SelectedIndex = 0;
 
-                UpdateStatus("Text entry deleted.");
+                //UpdateStatus("Text entry deleted.");
                 MessageBox.Show("Text entry deleted successfully.", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             catch (ArgumentException ex)
             {
                 // Catch any ArgumentException related to text entry being empty or whitespace only
                 MessageBox.Show($"Error: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                UpdateStatus($"Deletion failed: {ex.Message}");
+                //UpdateStatus($"Deletion failed: {ex.Message}");
             }
         }
 
@@ -388,6 +363,74 @@ namespace Recording
         private void buttonListExit_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
+        }
+
+        //------------------------------------------------
+
+        private LogEntry selectedEntry;
+
+        private void ListViewEntries_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (listViewEntries.SelectedItem != null)
+            {
+                var selectedItem = listViewEntries.SelectedItem as ListViewItem;
+                if (selectedItem != null)
+                {
+                    var content = selectedItem.Content as dynamic;
+                    if (content != null)
+                    {
+                        selectedEntry = LogEntry.logEntries.FirstOrDefault(entry => entry.Id == content.Id);
+                    }
+                }
+            }
+        }
+
+
+
+        private void buttonListEdit_Click(object sender, RoutedEventArgs e)
+        {
+            if (selectedEntry != null)
+            {
+                // Assuming you have text boxes or other controls to edit the entry
+                int newWellnessValue = int.Parse(comboWellness.SelectedItem.ToString());
+                int newQualityValue = int.Parse(comboQuality.SelectedItem.ToString());
+                string newNotesValue = textNotes.Text;
+
+                JsonDataHandler.EditEntry(selectedEntry, newWellnessValue, newQualityValue, newNotesValue);
+                UpdateListView();
+                MessageBox.Show("Entry edited successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            else
+            {
+                MessageBox.Show("No entry selected for editing.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+
+
+        private void buttonListDelete_Click(object sender, RoutedEventArgs e)
+        {
+            if (selectedEntry != null)
+            {
+                JsonDataHandler.DeleteEntry(selectedEntry);
+                UpdateListView();
+                MessageBox.Show("Entry deleted successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            else
+            {
+                MessageBox.Show("No entry selected for deletion.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+
+        private void DeleteAudioEntryFromFile(AudioLogEntry audioEntry)
+        {
+
+        }
+
+        private void DeleteTextEntryFromFile(TextLogEntry textEntry)
+        {
+
         }
     }
 }

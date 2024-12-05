@@ -4,111 +4,64 @@
 // Date Modified: 16th November 2024
 // Description:   A class created to keep track of the entered logs 
 
-// Imports
 using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 
 namespace Recording
 {
-    // New Class is dclared
-    internal class LogEntry
+    [Serializable]
+    public abstract class LogEntry
     {
         // Static list to hold all saved entries
-        protected internal static List<LogEntry> logEntries = new List<LogEntry>();
+        public static List<LogEntry> logEntries = new List<LogEntry>();
 
         // Static variables
-        // Tracks the number of LogEntry objects created.
-        protected static int count = 0;
-        // Tracks the date and time of the first and last entry
-        protected static DateTime firstEntry;
-        protected static DateTime newestEntry;
+        public static int count = 0;
+        public static DateTime firstEntry;
+        public static DateTime newestEntry;
 
         // Instance variables
-        // Each LogEntry object will have its own copy
-        // Unique ID for every new entry created
-        protected int logID;
-        // Date and Time set to current time for when the entry was created
-        protected DateTime logDate = DateTime.Now;
-        protected int logWellness;
-        protected int logQuality;
-        // An empty string to store notes with the long entry
-        protected string logNotes = String.Empty;
-
-        // Constructors
-
+        public int logID;
+        public DateTime logDate = DateTime.Now;
+        public int logWellness;
+        public int logQuality;
+        public string logNotes = string.Empty;
 
         // Properties
-        // Allows read-only access to logID
-        // Assigning and setting unique id to each entry created (both audio and text)
-        protected internal int Id
+        public int Id
         {
-            get => logID; private set
-            {
-                logID = value;
-            }
-
+            get => logID;
+            set => logID = value;
         }
 
-        // Provides read and write access to logDate
-        // Gets and Sets the DateTime an entry was created
-        protected internal DateTime EntryDate
+        public DateTime EntryDate
         {
-            get => logDate; set
-            {
-                logDate = value;
-            }
+            get => logDate;
+            set => logDate = value;
         }
 
-        // Read and Write
-        // Takes the value from the combobox and allows to set it 
-        protected internal int Wellness
+        public int Wellness
         {
-            get => logWellness; set
-            {
-                logWellness = value;
-            }
+            get => logWellness;
+            set => logWellness = value;
         }
 
-        // Read and Write
-        // Takes the value from the combobox and allows to set it 
-        protected internal int Quality
+        public int Quality
         {
-            get => logQuality; set
-            {
-                logQuality = value;
-            }
+            get => logQuality;
+            set => logQuality = value;
         }
 
-        // Read and Write the string called notes
-        // Notes in the Audio Entry Tab
-        // Essay Textbox in the Text Entry Tab
-        protected internal string Notes
+        public string Notes
         {
-            get => logNotes; set
-            {
-                logNotes = value;
-            }
+            get => logNotes;
+            set => logNotes = value;
         }
 
-
-        // Get the total number of log entries
-
-        protected internal static int Count => count;
-
-        // Get the first log entry's data
-
-        protected internal static DateTime FirstEntry => firstEntry;
-
-        // Get the most recent log entry's data
-
-        protected internal static DateTime NewestEntry => newestEntry;
-
-
+        public static int Count => count;
+        public static DateTime FirstEntry => firstEntry;
+        public static DateTime NewestEntry => newestEntry;
     }
 }
+
 
