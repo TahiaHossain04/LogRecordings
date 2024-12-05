@@ -312,13 +312,17 @@
                     </Button>
                     <Button x:Name="buttonListEdit" Grid.Column="2" HorizontalAlignment="Left" Margin="0,78,0,0" Grid.Row="4" VerticalAlignment="Top" Width="134" Height="44" Click="buttonListEdit_Click" TabIndex="2" ToolTip="Click to Edit an Entry" Grid.ColumnSpan="2">
                         <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="13*"/>
+                                <RowDefinition Height="22*"/>
+                            </Grid.RowDefinitions>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition />
                                 <ColumnDefinition />
                             </Grid.ColumnDefinitions>
 
-                            <Label FontFamily="Segoe UI Symbol" FontSize="19" Content="&#xE127;" Grid.Column="0" HorizontalAlignment="Right"/>
-                            <Label Content="Ed_it" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Right" Width="30"/>
+                            <Label FontFamily="Segoe UI Symbol" FontSize="19" Content="&#xE127;" HorizontalAlignment="Center" Grid.RowSpan="2"/>
+                            <Label Content="Ed_it" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Center" Width="30" Margin="0,4,0,0" Grid.RowSpan="2"/>
 
                         </Grid>
                     </Button>

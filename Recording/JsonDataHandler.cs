@@ -51,7 +51,17 @@ namespace Recording
             entry.Wellness = wellnessValue;
             entry.Quality = qualityValue;
             entry.Notes = notesValue;
+
+            // Find and replace the entry in the list
+            var entryIndex = LogEntry.logEntries.FindIndex(e => e.Id == entry.Id);
+            if (entryIndex >= 0)
+            {
+                LogEntry.logEntries[entryIndex] = entry;  // Replace the entry with updated values
+            }
+
+            // Save the updated list back to JSON
             SaveEntries(LogEntry.logEntries);
         }
+
     }
 }

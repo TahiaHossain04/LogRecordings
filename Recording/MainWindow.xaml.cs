@@ -111,6 +111,9 @@ namespace Recording
                 // Create a new AudioLogEntry object
                 LogEntry audioLogEntry = new AudioLogEntry(wellnessRating, qualityRating, textNotes.Text, recordingFile);
 
+                // 
+                JsonDataHandler.SaveEntries(LogEntry.logEntries);
+
                 // Clear the ListView and add all entries
                 UpdateListView();
 
@@ -256,6 +259,9 @@ namespace Recording
                 // Save as a TextLogEntry if validation passes
                 LogEntry newEntry = new TextLogEntry(wellnessRating, qualityRating, notes);
 
+                //
+                JsonDataHandler.SaveEntries(LogEntry.logEntries);
+
                 // Clear the ListView and add all entries
                 UpdateListView();
 
@@ -376,12 +382,12 @@ namespace Recording
                 var selectedItem = listViewEntries.SelectedItem as ListViewItem;
                 if (selectedItem != null)
                 {
-                    var content = selectedItem.Content as dynamic;
-                    if (content != null)
-                    {
-                        selectedEntry = LogEntry.logEntries.FirstOrDefault(entry => entry.Id == content.Id);
-                    }
+                    selectedEntry = selectedItem.Content as LogEntry;
                 }
+            }
+            else
+            {
+                selectedEntry = null; // In case nothing is selected
             }
         }
 
@@ -391,20 +397,66 @@ namespace Recording
         {
             if (selectedEntry != null)
             {
-                // Assuming you have text boxes or other controls to edit the entry
-                int newWellnessValue = int.Parse(comboWellness.SelectedItem.ToString());
-                int newQualityValue = int.Parse(comboQuality.SelectedItem.ToString());
-                string newNotesValue = textNotes.Text;
+                try
+                {
+                    // Check if the selected entry is an AudioLogEntry or TextLogEntry
+                    if (selectedEntry is AudioLogEntry audioEntry)
+                    {
+                        // Navigate to the Audio Entry tab
+                        tabController.SelectedItem = tabAudioEntry;
 
-                JsonDataHandler.EditEntry(selectedEntry, newWellnessValue, newQualityValue, newNotesValue);
-                UpdateListView();
-                MessageBox.Show("Entry edited successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                        // Populate the fields with the selected entry's data
+                        comboWellness.SelectedItem = audioEntry.Wellness.ToString();
+                        comboQuality.SelectedItem = audioEntry.Quality.ToString();
+                        textNotes.Text = audioEntry.Notes;
+
+                        // Save the changes when the save button is clicked
+                        buttonSave.Click += (s, args) =>
+                        {
+                            int newWellnessValue = int.Parse(((ComboBoxItem)comboWellness.SelectedItem).Content.ToString());
+                            int newQualityValue = int.Parse(((ComboBoxItem)comboQuality.SelectedItem).Content.ToString());
+                            string newNotesValue = textNotes.Text;
+
+                            JsonDataHandler.EditEntry(audioEntry, newWellnessValue, newQualityValue, newNotesValue);
+                            UpdateListView();
+                            MessageBox.Show("Audio Entry edited successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                        };
+                    }
+                    else if (selectedEntry is TextLogEntry textEntry)
+                    {
+                        // Navigate to the Text Entry tab
+                        tabController.SelectedItem = tabTextEntry;
+
+                        // Populate the fields with the selected entry's data
+                        comboWellness2.SelectedItem = textEntry.Wellness.ToString();
+                        comboQuality2.SelectedItem = textEntry.Quality.ToString();
+                        textEssay.Text = textEntry.Notes;
+
+                        // Save the changes when the save button is clicked
+                        buttonTextSave.Click += (s, args) =>
+                        {
+                            int newWellnessValue = int.Parse(((ComboBoxItem)comboWellness2.SelectedItem).Content.ToString());
+                            int newQualityValue = int.Parse(((ComboBoxItem)comboQuality2.SelectedItem).Content.ToString());
+                            string newNotesValue = textEssay.Text;
+
+                            JsonDataHandler.EditEntry(textEntry, newWellnessValue, newQualityValue, newNotesValue);
+                            UpdateListView();
+                            MessageBox.Show("Text Entry edited successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                        };
+                    }
+                }
+                catch (FormatException ex)
+                {
+                    MessageBox.Show($"Error parsing input: {ex.Message}", "Input Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
             }
             else
             {
                 MessageBox.Show("No entry selected for editing.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
+
+
 
 
 

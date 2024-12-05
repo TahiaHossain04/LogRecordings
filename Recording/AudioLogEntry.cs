@@ -42,8 +42,8 @@ namespace Recording
 
             SaveToFile("AudioEntries");
 
-            logEntries.Add(this);
-            JsonDataHandler.SaveEntries(logEntries);
+            LogEntry.logEntries.Add(this);
+            JsonDataHandler.SaveEntries(LogEntry.logEntries);
         }
 
         public FileInfo RecordingFile

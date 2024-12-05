@@ -39,8 +39,8 @@ namespace Recording
             Directory.CreateDirectory(directory);
             SaveToFile(directory);
 
-            logEntries.Add(this);
-            JsonDataHandler.SaveEntries(logEntries);
+            LogEntry.logEntries.Add(this);
+            JsonDataHandler.SaveEntries(LogEntry.logEntries);
         }
 
         public string TextContent
