@@ -29,38 +29,47 @@ namespace Recording
         public string logNotes = string.Empty;
 
         // Properties
+
+        // Unique Log ID for each entry
         public int Id
         {
             get => logID;
             set => logID = value;
         }
 
+        // First Entry Created Date
         public DateTime EntryDate
         {
             get => logDate;
             set => logDate = value;
         }
 
+        // Wellness Combobox Index Selected
         public int Wellness
         {
             get => logWellness;
             set => logWellness = value;
         }
 
+        // Quality Combobox Index Selected
         public int Quality
         {
             get => logQuality;
             set => logQuality = value;
         }
 
+        // Notes or Essay 
         public string Notes
         {
             get => logNotes;
             set => logNotes = value;
         }
 
+        // COunting the number of entries
         public static int Count => count;
+        // First Entry as firstEntry in the date time format
         public static DateTime FirstEntry => firstEntry;
+        // Newest Entry as newestEntry in the date time format
         public static DateTime NewestEntry => newestEntry;
     }
 }

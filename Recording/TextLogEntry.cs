@@ -10,18 +10,23 @@ using System.IO;
 using System.Windows;
 
 namespace Recording
+    
 {
+    // OpenAI. (2024). ChatGPT [Large language model]. https://chatgpt.com
     [Serializable]
     public class TextLogEntry : LogEntry
     {
+        // Properties
         private string textContent;
 
+        // Constructor
         public TextLogEntry()
         {
             count++;
             logID = count;
         }
 
+        // Parameterized Constructor
         public TextLogEntry(int wellnessValue, int qualityValue, string notesValue)
         {
             count++;
@@ -37,14 +42,18 @@ namespace Recording
             Notes = notesValue;
             TextContent = notesValue;
 
-            string directory = "TextEntries";
-            Directory.CreateDirectory(directory);
-            SaveToFile(directory);
+            //// Creates a dictionary and saves the entry to a text entry
+            //string directory = "TextEntries";
+            //Directory.CreateDirectory(directory);
+            //SaveToFile(directory);
 
             LogEntry.logEntries.Add(this);
+            // OpenAI. (2024). ChatGPT [Large language model]. https://chatgpt.com
+            // Adds the entry to the log list and saves all entries to JSON
             JsonDataHandler.SaveEntries(LogEntry.logEntries);
         }
 
+        // To get the content of the text and store it
         public string TextContent
         {
             get => textContent;
@@ -58,21 +67,23 @@ namespace Recording
             }
         }
 
-        private void SaveToFile(string directory)
-        {
-            try
-            {
-                string timestamp = DateTime.Now.ToString("yyyyMMdd_HHmmssfff");
-                string fileName = Path.Combine(directory, $"{logID}_{timestamp}_entry.txt");
+        //private void SaveToFile(string directory)
+        //{
+        //    try
+        //    {
+        //        string timestamp = DateTime.Now.ToString("yyyyMMdd_HHmmssfff");
+        //        string fileName = Path.Combine(directory, $"{logID}_{timestamp}_entry.txt");
 
-                File.WriteAllText(fileName, textContent);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Error saving text entry: {ex.Message}", "Save Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-        }
+        //        File.WriteAllText(fileName, textContent);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        MessageBox.Show($"Error saving text entry: {ex.Message}", "Save Error", MessageBoxButton.OK, MessageBoxImage.Error);
+        //    }
+        //}
 
+
+        // Returns formatted string
         public override string ToString()
         {
             return $"Text Entry {Id} created at {EntryDate}, Wellness: {Wellness}, Quality: {Quality}, Essay: {Notes}";

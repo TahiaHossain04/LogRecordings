@@ -204,13 +204,6 @@ namespace Recording
             comboQuality.SelectedIndex = 0;
         }
 
-        // For the Audio Log Entry Tab
-        // Exit Button
-        private void buttonExit_Click(object sender, RoutedEventArgs e)
-        {
-            this.Close();
-        }
-
         // Changing of tabs
         private void TabChanged(object sender, RoutedEventArgs e)
         {
@@ -359,6 +352,13 @@ namespace Recording
             }
         }
 
+        // Exit Button Functionalities
+
+        private void buttonExit_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
+
         private void buttonTextEntryDelete_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
@@ -374,10 +374,13 @@ namespace Recording
             this.Close();
         }
 
-        //------------------------------------------------
+        //----------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+        // List View Entries Functionality
+        // variable to store the selected LogEntry as selectedEntry
         private LogEntry selectedEntry;
 
+        // To select items on the list
         private void ListViewEntries_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (listViewEntries.SelectedItem != null)
@@ -391,13 +394,14 @@ namespace Recording
             else
             {
                 selectedEntry = null;
-                MessageBox.Show("No item selected");
             }
         }
 
 
+        // Functionality for the Edit List Button
         private void buttonListEdit_Click(object sender, RoutedEventArgs e)
         {
+            // If an entry is selected from the list
             if (selectedEntry != null)
             {
                 try
@@ -413,6 +417,7 @@ namespace Recording
                         buttonPlay.IsEnabled = true; // Enable the play button
                         buttonSave.IsEnabled = true;
 
+                        // OpenAI. (2024). ChatGPT [Large language model]. https://chatgpt.com
                         buttonSave.Click += (s, args) =>
                         {
                             int newWellnessValue = int.Parse(((ComboBoxItem)comboWellness.SelectedItem).Content.ToString());
@@ -422,8 +427,7 @@ namespace Recording
                             JsonDataHandler.EditEntry(audioEntry, newWellnessValue, newQualityValue, newNotesValue);
                             UpdateListView();
 
-                    
-                            buttonRecord.IsEnabled = true; // Re-enable the recording button after saving
+                            buttonRecord.IsEnabled = true; 
                         };
                     }
                     else if (selectedEntry is TextLogEntry textEntry)
@@ -433,6 +437,8 @@ namespace Recording
                         comboQuality2.SelectedItem = textEntry.Quality.ToString();
                         textEssay.Text = textEntry.Notes;
 
+
+                        // OpenAI. (2024). ChatGPT [Large language model]. https://chatgpt.com
                         buttonTextSave.Click += (s, args) =>
                         {
                             int newWellnessValue = int.Parse(((ComboBoxItem)comboWellness2.SelectedItem).Content.ToString());
@@ -456,6 +462,7 @@ namespace Recording
         }
 
 
+        // Functionality for Deleting Entries in the list
         private void buttonListDelete_Click(object sender, RoutedEventArgs e)
         {
             if (selectedEntry != null)
@@ -470,16 +477,19 @@ namespace Recording
             }
         }
 
-
-
-
+        // Method to load entries 
         private void LoadEntries() { LogEntry.logEntries = JsonDataHandler.LoadEntries(); UpdateListView(); }
 
+        // ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+        // Menu Items Functionality
+        // Exit Button functionality as a menu item
         private void menuItemExit_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
         }
 
+        // Clearing any inputs on all tabs
         private void menuItemClear_Click(object sender, RoutedEventArgs e)
         {
             textEssay.Clear();
@@ -495,6 +505,7 @@ namespace Recording
             
         }
 
+        // To find info about the author
         private void menuItemAbout_Click(object sender, RoutedEventArgs e)
         {
             // The About Info 

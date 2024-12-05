@@ -11,17 +11,22 @@ using System.Windows;
 
 namespace Recording
 {
+    // OpenAI. (2024). ChatGPT [Large language model]. https://chatgpt.com
     [Serializable]
     public class AudioLogEntry : LogEntry
     {
+        // Properties
         public FileInfo logFile;
 
+        // Constructors
         public AudioLogEntry()
         {
             count++;
             logID = count;
         }
 
+
+        // Parameterized Constructor
         public AudioLogEntry(int wellnessValue, int qualityValue, string notesValue, FileInfo filevalue)
         {
             if (string.IsNullOrWhiteSpace(notesValue))
@@ -42,8 +47,9 @@ namespace Recording
             Notes = notesValue;
             RecordingFile = filevalue;
 
-            SaveToFile("AudioEntries");
+            //SaveToFile("AudioEntries");
 
+            // Saves entries to JSON file
             LogEntry.logEntries.Add(this);
             JsonDataHandler.SaveEntries(LogEntry.logEntries);
         }
@@ -54,33 +60,32 @@ namespace Recording
             set => logFile = value;
         }
 
-        private void SaveToFile(string directory)
-        {
-            try
-            {
-                Directory.CreateDirectory(directory);
-                string timestamp = DateTime.Now.ToString("yyyyMMdd_HHmmssfff");
-                string fileName = Path.Combine(directory, $"{logID}_{timestamp}_entry.wav");
+        //private void SaveToFile(string directory)
+        //{
+        //    try
+        //    {
+        //        Directory.CreateDirectory(directory);
+        //        string timestamp = DateTime.Now.ToString("yyyyMMdd_HHmmssfff");
+        //        string fileName = Path.Combine(directory, $"{logID}_{timestamp}_entry.wav");
 
-                Console.WriteLine($"Saving file: {fileName}");
 
-                if (logFile != null && logFile.Exists)
-                {
-                    File.Copy(logFile.FullName, fileName);
-                    Console.WriteLine($"File saved successfully at: {fileName}");
-                }
-                else
-                {
-                    throw new ArgumentException("The specified audio file does not exist.");
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error saving audio entry: {ex.Message}");
-                MessageBox.Show($"Error saving audio entry: {ex.Message}", "Save Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-        }
+        //        if (logFile != null && logFile.Exists)
+        //        {
+        //            File.Copy(logFile.FullName, fileName);
+        //        }
+        //        else
+        //        {
+        //            throw new ArgumentException("The specified audio file does not exist.");
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Console.WriteLine($"Error saving audio entry: {ex.Message}");
+        //        MessageBox.Show($"Error saving audio entry: {ex.Message}", "Save Error", MessageBoxButton.OK, MessageBoxImage.Error);
+        //    }
+        //}
 
+        // Returns string
         public override string ToString()
         {
             return $"Audio Entry {Id} created at {EntryDate}, Wellness: {Wellness}, Quality: {Quality}, Essay: {Notes}";
