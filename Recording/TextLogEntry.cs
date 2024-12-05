@@ -1,8 +1,10 @@
 ﻿// Author:        Tahia Hossain
-// File:          Recording (version 2)
-// Date Created:  15th November 2024
-// Date Modified: 16th November 2024
+// File:          Recording (version 3)
+// Date Created:  29th November 2024
+// Date Modified: 05th December 2024
 // Description:   An inherited class created to keep track of the entered text logs 
+
+
 using System;
 using System.IO;
 using System.Windows;

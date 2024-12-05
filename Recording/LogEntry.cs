@@ -1,7 +1,8 @@
 ﻿// Author:        Tahia Hossain
 // File:          Recording (version 2)
-// Date Created:  13th November 2024
-// Date Modified: 16th November 2024
+// File:          Recording (version 3)
+// Date Created:  29th November 2024
+// Date Modified: 05th December 2024
 // Description:   A class created to keep track of the entered logs 
 
 using System;

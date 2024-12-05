@@ -3,6 +3,8 @@
 // Date Created:  29th November 2024
 // Date Modified: 05th December 2024
 // Description:   An inherited class created to keep track of the entered audio logs 
+
+
 using System;
 using System.IO;
 using System.Windows;

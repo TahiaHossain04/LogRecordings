@@ -1,7 +1,14 @@
-﻿using System;
+﻿// Author:        Tahia Hossain
+// File:          Recording (version 3)
+// Date Created:  2nd December 2024
+// Date Modified: 5th December 2024
+// Description:   JSON Data Class to store and persist data
+
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text.Json;
+using System.Windows;
 
 namespace Recording
 {
@@ -18,7 +25,7 @@ namespace Recording
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error saving entries: {ex.Message}");
+                MessageBox.Show($"Error saving entries: {ex.Message}");
             }
         }
 
@@ -35,7 +42,7 @@ namespace Recording
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error loading entries: {ex.Message}");
+                MessageBox.Show($"Error loading entries: {ex.Message}");
                 return new List<LogEntry>();
             }
         }

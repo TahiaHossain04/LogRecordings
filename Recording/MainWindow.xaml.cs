@@ -1,7 +1,7 @@
 ﻿// Author:        Tahia Hossain
-// File:          Recording (version 2)
-// Date Created:  13th November 2024
-// Date Modified: 16th November 2024
+// File:          Recording (version 3)
+// Date Created:  29th November 2024
+// Date Modified: 05th December 2024
 // Description:   The main wind of the XAML file to store the event handlers for all the
 //                buttons and fields on the XAML file.
 
@@ -41,7 +41,8 @@ namespace Recording
             //listViewEntries.ItemsSource = LogEntry.List;
             listViewEntries.Items.Add("Great");
 
-            LogEntry.logEntries = JsonDataHandler.LoadEntries();
+            //LogEntry.logEntries = JsonDataHandler.LoadEntries();
+            LoadEntries();
 
         }
 
@@ -285,13 +286,15 @@ namespace Recording
             }
         }
 
+        // Method to update the list view for each item 
+
         private void UpdateListView()
         {
             listViewEntries.Items.Clear();
             foreach (var item in LogEntry.logEntries)
             {
                 ListViewItem listViewItem = new ListViewItem();
-                listViewItem.Content = new { Id = item.Id, EntryDate = item.EntryDate, Notes = item.Notes, Wellness = item.Wellness, Quality = item.Quality };
+                listViewItem.Content = item; 
                 listViewEntries.Items.Add(listViewItem);
             }
         }
@@ -387,10 +390,10 @@ namespace Recording
             }
             else
             {
-                selectedEntry = null; // In case nothing is selected
+                selectedEntry = null;
+                MessageBox.Show("No item selected");
             }
         }
-
 
 
         private void buttonListEdit_Click(object sender, RoutedEventArgs e)
@@ -399,18 +402,17 @@ namespace Recording
             {
                 try
                 {
-                    // Check if the selected entry is an AudioLogEntry or TextLogEntry
                     if (selectedEntry is AudioLogEntry audioEntry)
                     {
-                        // Navigate to the Audio Entry tab
                         tabController.SelectedItem = tabAudioEntry;
-
-                        // Populate the fields with the selected entry's data
                         comboWellness.SelectedItem = audioEntry.Wellness.ToString();
                         comboQuality.SelectedItem = audioEntry.Quality.ToString();
                         textNotes.Text = audioEntry.Notes;
 
-                        // Save the changes when the save button is clicked
+                        buttonRecord.IsEnabled = false; // Disable the recording button
+                        buttonPlay.IsEnabled = true; // Enable the play button
+                        buttonSave.IsEnabled = true;
+
                         buttonSave.Click += (s, args) =>
                         {
                             int newWellnessValue = int.Parse(((ComboBoxItem)comboWellness.SelectedItem).Content.ToString());
@@ -419,20 +421,18 @@ namespace Recording
 
                             JsonDataHandler.EditEntry(audioEntry, newWellnessValue, newQualityValue, newNotesValue);
                             UpdateListView();
-                            MessageBox.Show("Audio Entry edited successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+
+                    
+                            buttonRecord.IsEnabled = true; // Re-enable the recording button after saving
                         };
                     }
                     else if (selectedEntry is TextLogEntry textEntry)
                     {
-                        // Navigate to the Text Entry tab
                         tabController.SelectedItem = tabTextEntry;
-
-                        // Populate the fields with the selected entry's data
                         comboWellness2.SelectedItem = textEntry.Wellness.ToString();
                         comboQuality2.SelectedItem = textEntry.Quality.ToString();
                         textEssay.Text = textEntry.Notes;
 
-                        // Save the changes when the save button is clicked
                         buttonTextSave.Click += (s, args) =>
                         {
                             int newWellnessValue = int.Parse(((ComboBoxItem)comboWellness2.SelectedItem).Content.ToString());
@@ -441,7 +441,6 @@ namespace Recording
 
                             JsonDataHandler.EditEntry(textEntry, newWellnessValue, newQualityValue, newNotesValue);
                             UpdateListView();
-                            MessageBox.Show("Text Entry edited successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
                         };
                     }
                 }
@@ -455,9 +454,6 @@ namespace Recording
                 MessageBox.Show("No entry selected for editing.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
-
-
-
 
 
         private void buttonListDelete_Click(object sender, RoutedEventArgs e)
@@ -475,14 +471,37 @@ namespace Recording
         }
 
 
-        private void DeleteAudioEntryFromFile(AudioLogEntry audioEntry)
-        {
 
+
+        private void LoadEntries() { LogEntry.logEntries = JsonDataHandler.LoadEntries(); UpdateListView(); }
+
+        private void menuItemExit_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
         }
 
-        private void DeleteTextEntryFromFile(TextLogEntry textEntry)
+        private void menuItemClear_Click(object sender, RoutedEventArgs e)
         {
+            textEssay.Clear();
+            comboWellness2.SelectedIndex = 0;
+            comboQuality2.SelectedIndex = 0;
+            textNotes.Clear();
+            comboWellness.SelectedIndex = 0;
+            comboQuality.SelectedIndex = 0;
+        }
 
+        private void menuItemHelp_Click(object sender, RoutedEventArgs e)
+        {
+            
+        }
+
+        private void menuItemAbout_Click(object sender, RoutedEventArgs e)
+        {
+            // The About Info 
+            string AboutInfo = "Author: Tahia Hossain\nApplication Name: Learning Log\nDate: 5th December 2024";
+
+            // Display the message
+            MessageBox.Show(AboutInfo, "About the Author", MessageBoxButton.OK, MessageBoxImage.Information);
         }
     }
 }
