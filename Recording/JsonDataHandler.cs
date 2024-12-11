@@ -73,11 +73,11 @@ namespace Recording
 
             // Find and replace the entry in the list
             // OpenAI. (2024). ChatGPT [Large language model]. https://chatgpt.com
-            var entryIndex = LogEntry.logEntries.FindIndex(e => e.Id == entry.Id);
-            if (entryIndex >= 0)
-            {
-                LogEntry.logEntries[entryIndex] = entry;  // Replace the entry with updated values
-            }
+            //var entryIndex = LogEntry.logEntries.FindIndex(e => e.Id == entry.Id);
+            //if (entryIndex >= 0)
+            //{
+            //    LogEntry.logEntries[entryIndex] = entry;  // Replace the entry with updated values
+            //}
 
             // Save the updated list back to JSON
             SaveEntries(LogEntry.logEntries);
